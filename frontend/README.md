@@ -5,4 +5,4 @@ This is a next.js frontend for neuronotes. For running the frontend in developme
 $ npm run dev
 ```
 
-and go to `localhost:8000/`
+and go to `localhost:3000/`
