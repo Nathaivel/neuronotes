@@ -2,6 +2,7 @@ import NotePost from "./ui/NotePost.tsx";
 
 export default function Home() {
   return (
+<<<<<<< HEAD
     <div className="block min-h-screen   bg-zinc-50 font-sans dark:bg-black">
       <div className="flex justify-center w-full">
         <div className="block w-7/12">
@@ -16,6 +17,11 @@ export default function Home() {
       >
         +
       </a>
+=======
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+      <NotePost title="Note" description="this is a new note"></NotePost>
+      <NotePost title="Note" description="this is an old note"></NotePost>
+>>>>>>> f5b4991db8e71358934dab50217024f5aa1f3a70
     </div>
   );
 }
