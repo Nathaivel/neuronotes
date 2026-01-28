@@ -5,7 +5,31 @@ export default async function fetch_notes() {
     .then((r) => r.json())
     .catch((e) => console.log(e));
   console.log(res);
+
+  if (res == undefined) {
+    res = [];
+  }
+
   return res;
 }
 
-fetch_notes();
+export async function save_note(t, c) {
+  let res = await fetch(`${api_url}/notes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title: t, content: c }),
+  })
+    .then((r) => r.json())
+    .catch((e) => console.log(e));
+
+  return res;
+}
+
+export async function delete_note(id) {
+  let res = await fetch(`${api_url}/notes/${id}`, {
+    method: "DELETE",
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+  return res;
+}
