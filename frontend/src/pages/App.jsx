@@ -1,5 +1,5 @@
-import { NoteFeed } from "./ui/Notes.jsx";
-import NotePost from "./ui/Notes.jsx";
+import { NoteFeed } from "../ui/Notes.jsx";
+import NotePost from "../ui/Notes.jsx";
 
 function ControlPanel() {
   return (
