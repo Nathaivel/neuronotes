@@ -4,7 +4,8 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./pages/App.jsx";
 import NotFound from "./pages/Error.jsx";
-import Navbar from "./ui/Navbar.jsx";
+import Navbar from "./components/Navbar.jsx";
+import NoteEdit from "./pages/NoteEdit.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -13,6 +14,7 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/note" element={<NoteEdit />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+@theme {
+    --color-light-background: #fff;
+    --color-light-soft: #eee;
+    --color-light-text: #0d1117;
+    --color-light-accent: #321066;
+
+    --color-dark-background: #0d1117;
+    --color-dark-soft: #2f3339;
+    --color-dark-text: #ebfeff;
+    --color-dark-accent: #7654aa;
+}
+
+@layer base {
+    @media (prefers-color-scheme: light) {
+        body {
+            background-color: var(--color-light-background);
+            color: var(--color-light-text);
+        }
+    }
+    @media (prefers-color-scheme: dark) {
+        body {
+            background-color: var(--color-dark-background);
+            color: var(--color-dark-text);
+        }
+    }
+}
