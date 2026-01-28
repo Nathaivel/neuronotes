@@ -6,3 +6,11 @@ export default function NotePost({ title, description }) {
     </div>
   );
 }
+
+export function NoteFeed({ nlist }) {
+  let notes = nlist.map((note) => (
+    <NotePost key={note.id} title={note.title} description={note.description} />
+  ));
+
+  return <>{notes}</>;
+}
