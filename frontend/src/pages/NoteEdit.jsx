@@ -1,10 +1,18 @@
-import { useState } from "react";
-import { save_note } from "../utils/api";
+import { useState, useEffect } from "react";
+import { save_note, fetch_note, update_note } from "../utils/api";
 
-export default function NoteEdit() {
+export default function NoteEdit({ id }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
+  useEffect(() => {
+    if (id != undefined && title === "") {
+      fetch_note(id).then((r) => {
+        setTitle(r.title);
+        setContent(r.content);
+      });
+    }
+  }, [title, id, content]);
   return (
     <div>
       <div className="w-full flex space-x-2 border-b dark:border-dark-soft border-light-soft border-solid">
@@ -17,7 +25,11 @@ export default function NoteEdit() {
         <a
           className="p-2 flex justify-center items-center bg-dark-accent w-1/12 rounded-sm"
           href="/"
-          onClick={() => save_note(title, content)}
+          onClick={() =>
+            id != undefined
+              ? update_note(id, title, content)
+              : save_note(title, content)
+          }
         >
           OK
         </a>

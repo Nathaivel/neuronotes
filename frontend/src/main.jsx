@@ -15,6 +15,10 @@ createRoot(document.getElementById("root")).render(
         <Route path="/" element={<App />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/note" element={<NoteEdit />} />
+        <Route
+          path="/note/*"
+          element={<NoteEdit id={window.location.pathname.slice(6)} />}
+        />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
