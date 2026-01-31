@@ -1,21 +1,30 @@
 from datetime import datetime
+from subprocess import REALTIME_PRIORITY_CLASS
+
+from bson import ObjectId
+from fastapi import APIRouter, HTTPException
 
 from app.database import notes_collection
 from app.models import NoteCreate, NoteUpdate
-from bson import ObjectId
-from fastapi import APIRouter, HTTPException
 
 router = APIRouter(prefix="/notes", tags=["Notes"])
 
 
 def note_serializer(note) -> dict:
-    return {
+    res = {
         "id": str(note["_id"]),
         "title": note["title"],
         "content": note["content"],
         "created_at": note["created_at"],
         "updated_at": note["updated_at"],
     }
+
+    try:
+        res["reviews"] = note["reviews"]
+    except KeyError:
+        print("Missing values")
+
+    return res
 
 
 @router.post("/")
@@ -26,6 +35,7 @@ async def create_note(note: NoteCreate):
         "content": note.content,
         "created_at": now,
         "updated_at": now,
+        "reviews": [],
     }
     result = await notes_collection.insert_one(new_note)
     return {"id": str(result.inserted_id)}
@@ -48,9 +58,16 @@ async def get_note(note_id: str):
 
 
 @router.put("/{note_id}")
-async def update_note(note_id: str, data: NoteUpdate):
-    update_data = {k: v for k, v in data.dict().items() if v is not None}
-    update_data["updated_at"] = datetime.utcnow()
+async def update_note(note_id: str, data: NoteUpdate, review: bool = False):
+    if not review:
+        update_data = {k: v for k, v in data.dict().items() if v is not None}
+        update_data["updated_at"] = datetime.utcnow()
+    else:
+        try:
+            prev_reviews = await get_note(note_id)
+            update_data = {"reviews": prev_reviews["reviews"] + [datetime.utcnow()]}
+        except KeyError:
+            update_data = {"reviews": [datetime.utcnow()]}
 
     result = await notes_collection.update_one(
         {"_id": ObjectId(note_id)}, {"$set": update_data}
