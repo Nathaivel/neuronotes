@@ -11,7 +11,7 @@ export default function NotePost({ id, title, description }) {
 
         <a
           href="/"
-          className="p-2 dark:bg-dark-accent bg-light-accent flex justify-center items-center rounded-sm"
+          className="p-2 dark:bg-dark-accent dark:text-dark-soft bg-light-accent flex justify-center items-center rounded-sm"
           onClick={() => delete_note(id)}
         >
           Delete

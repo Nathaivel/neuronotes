@@ -23,7 +23,7 @@ export default function NoteEdit({ id }) {
           className="w-11/12  p-2 text-3xl focus:outline-none"
         ></input>
         <a
-          className="p-2 flex justify-center items-center bg-dark-accent w-1/12 rounded-sm"
+          className="p-2 flex justify-center items-center dark:bg-dark-accent dark:text-dark-soft bg-light-accent w-1/12 rounded-sm"
           href="/"
           onClick={() =>
             id != undefined
