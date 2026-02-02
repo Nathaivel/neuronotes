@@ -35,7 +35,7 @@ function ControlPanel({ setNotes }) {
       ></input>
       <a
         href="/note"
-        className="flex justify-center items-center dark:bg-dark-accent bg-light-accent px-2.5 rounded-sm text-white w-2/12"
+        className="flex justify-center items-center dark:bg-dark-accent dark:text-dark-soft bg-light-accent px-2.5 rounded-sm text-white w-2/12"
       >
         +
       </a>
