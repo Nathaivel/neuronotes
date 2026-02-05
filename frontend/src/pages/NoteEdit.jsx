@@ -1,26 +1,32 @@
-import { useState, useEffect } from "react";
-import { save_note, fetch_note, update_note, delete_note } from "../utils/api";
+import { useState, useEffect, useRef } from "react";
+import { save_note, fetch_note, update_note } from "../utils/api";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function NoteEdit() {
   let id = useParams().id;
+  let timer = useRef(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (id != undefined && title === "") {
-      fetch_note(id).then((r) => {
-        setTitle(r.title);
-        setContent(r.content);
-      });
+    if (id != undefined) {
+      if (title === "" && content === "") {
+        fetch_note(id).then((r) => {
+          setTitle(r.title);
+          setContent(r.content);
+        });
+      }
     }
   }, [title, id, content]);
 
-  function upload_note() {
+  async function upload_note() {
     if (id != undefined) {
-      console.log("id is ", id);
-      update_note(id, title, content);
+      clearTimeout(timer.current);
+      timer.current = setTimeout(() => {
+        console.log("Saving...");
+        update_note(id, title, content);
+      }, 1500);
     } else {
       save_note(title, content).then((r) => {
         if (r.id != undefined) {
@@ -29,8 +35,7 @@ export default function NoteEdit() {
       });
     }
   }
-
-  function changeNote(e, hook) {
+  async function changeNote(e, hook) {
     hook(e.target.value);
     upload_note();
   }
@@ -40,7 +45,7 @@ export default function NoteEdit() {
       <div className="w-full flex space-x-2 border-b dark:border-dark-soft border-light-soft border-solid">
         <input
           value={title}
-          onChange={(e) => {
+          onChange={async (e) => {
             changeNote(e, setTitle);
           }}
           placeholder="Title"
@@ -56,7 +61,7 @@ export default function NoteEdit() {
       </div>
       <textarea
         value={content}
-        onChange={(e) => {
+        onChange={async (e) => {
           changeNote(e, setContent);
         }}
         placeholder="Write here..."
