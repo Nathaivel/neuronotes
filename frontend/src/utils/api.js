@@ -1,7 +1,7 @@
 let api_url = "http://127.0.0.1:8000";
 
-export default async function fetch_notes() {
-  let res = await fetch(`${api_url}/notes/`)
+export default async function fetch_notes(route = "") {
+  let res = await fetch(`${api_url}/notes/${route}`)
     .then((r) => r.json())
     .catch((e) => console.log(e));
 
@@ -55,4 +55,10 @@ export async function update_note(i, t, c) {
     .catch((e) => console.log(e));
 
   return res;
+}
+
+export async function log_note_review(id) {
+  await fetch(`${api_url}/notes/review/${id}`, { method: "PATCH" })
+    .then((r) => r.json())
+    .catch((e) => console.log(e));
 }

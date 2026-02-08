@@ -45,6 +45,7 @@ function ControlPanel({ setNotes }) {
 
 export default function Home() {
   const [notes, setNotes] = useState(data);
+  console.log(data);
   return (
     <div className="block min-h-screen font-sans">
       <div className="flex justify-center w-full">

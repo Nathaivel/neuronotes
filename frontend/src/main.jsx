@@ -6,6 +6,7 @@ import App from "./pages/App.jsx";
 import NotFound from "./pages/Error.jsx";
 import Navbar from "./components/Navbar.jsx";
 import NoteEdit from "./pages/NoteEdit.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/note" element={<NoteEdit />} />
           <Route path="/note/:id" element={<NoteEdit />} />

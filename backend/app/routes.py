@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from subprocess import REALTIME_PRIORITY_CLASS
 
 from bson import ObjectId
@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException
 
 from app.database import notes_collection
 from app.models import NoteCreate, NoteUpdate
+from app.utils import is_same_week
 
 router = APIRouter(prefix="/notes", tags=["Notes"])
 
@@ -59,15 +60,8 @@ async def get_note(note_id: str):
 
 @router.put("/{note_id}")
 async def update_note(note_id: str, data: NoteUpdate, review: bool = False):
-    if not review:
-        update_data = {k: v for k, v in data.dict().items() if v is not None}
-        update_data["updated_at"] = datetime.utcnow()
-    else:
-        try:
-            prev_reviews = await get_note(note_id)
-            update_data = {"reviews": prev_reviews["reviews"] + [datetime.utcnow()]}
-        except KeyError:
-            update_data = {"reviews": [datetime.utcnow()]}
+    update_data = {k: v for k, v in data.dict().items() if v is not None}
+    update_data["updated_at"] = datetime.utcnow()
 
     result = await notes_collection.update_one(
         {"_id": ObjectId(note_id)}, {"$set": update_data}
@@ -77,6 +71,52 @@ async def update_note(note_id: str, data: NoteUpdate, review: bool = False):
         raise HTTPException(status_code=404, detail="Note not found")
 
     return {"message": "Note updated"}
+
+
+@router.patch("/review/{note_id}/")
+async def mark_review(note_id: str):
+    prev_reviews = await get_note(note_id)
+    today = datetime.utcnow()
+
+    try:
+        if prev_reviews["reviews"][-1].date() != today.date():
+            update_data = {"reviews": prev_reviews["reviews"] + [today]}
+        else:
+            update_data = {"reviews": prev_reviews["reviews"]}
+            print("duplicate")
+    except IndexError:
+        update_data = {"reviews": [today]}
+
+    result = await notes_collection.update_one(
+        {"_id": ObjectId(note_id)}, {"$set": update_data}
+    )
+
+
+@router.get("/reviews/weekly")
+async def get_weekly_review():
+    notes = await get_all_notes()
+    week = [
+        {"name": "Monday", "reviews": 0},
+        {"name": "Tuesday", "reviews": 0},
+        {"name": "Wednesday", "reviews": 0},
+        {"name": "Thursday", "reviews": 0},
+        {"name": "Friday", "reviews": 0},
+        {"name": "Saturday", "reviews": 0},
+        {"name": "Sunday", "reviews": 0},
+    ]
+    today = datetime.utcnow()
+
+    for note in notes:
+        index = len(note["reviews"]) - 1
+
+        while index >= 0:
+            if is_same_week(note["reviews"][index], today):
+                week[note["reviews"][index].weekday()]["reviews"] += 1
+                index -= 1
+            else:
+                break
+
+    return week
 
 
 @router.delete("/{note_id}")
