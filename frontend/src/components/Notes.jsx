@@ -2,7 +2,7 @@ import { delete_note, log_note_review } from "../utils/api";
 
 export default function NotePost({ id, title, description }) {
   return (
-    <div className="dark:bg-dark-soft bg-light-soft rounded-2xl p-10 hover:scale-90 m-2.5">
+    <div className="dark:bg-dark-soft bg-light-soft rounded-2xl p-10 hover:scale-97 m-2.5 transition duration-50 cursor-pointer">
       <a href={`/note/${id}`} onClick={async () => log_note_review(id)}>
         <h2 className="text-lg font-bold">{title}</h2>
       </a>
