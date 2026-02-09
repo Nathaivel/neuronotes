@@ -43,6 +43,41 @@ function ControlPanel({ setNotes }) {
             />
           </svg>
         </div>
+              <style>
+        {`
+          .navsearch {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+          }
+
+          .navsearchinner {
+            position: relative;
+            width: 88%;
+            background-color: #2d394b;
+            border-radius: 10px;
+          }
+
+          .navsearch input {
+            width: 100%;
+            padding: 10px 40px 10px 12px;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            color: #dde8ff;
+          }
+
+          .navsearchinner svg {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #dde8ff;
+            pointer-events: none;
+          }
+        `}
+      </style>
       </div>
 
 
