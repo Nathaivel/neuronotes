@@ -43,7 +43,7 @@ function ControlPanel({ setNotes }) {
             />
           </svg>
         </div>
-              <style>
+      <style>
         {`
           .navsearch {
             display: flex;
