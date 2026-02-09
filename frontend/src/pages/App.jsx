@@ -24,14 +24,16 @@ function ControlPanel({ setNotes }) {
 
   return (
     <div className="flex space-x-1 m-2.5 mb-5">
-       <div className="navsearch">
+      <div className="navsearch">
         <div className="navsearchinner">
-          <input type="text" placeholder="search" 
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setNotes(search_notes(e.target.value, data));
-        }}
+          <input
+            type="text"
+            placeholder="search"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setNotes(search_notes(e.target.value, data));
+            }}
           />
           <svg width="25" height="25" viewBox="0 0 24 24" fill="none">
             <path
@@ -43,7 +45,7 @@ function ControlPanel({ setNotes }) {
             />
           </svg>
         </div>
-      <style>
+              <style>
         {`
           .navsearch {
             display: flex;
@@ -77,11 +79,8 @@ function ControlPanel({ setNotes }) {
             pointer-events: none;
           }
         `}
-      </style>
+        </style>
       </div>
-
-
-
 
       <a
         href="/note"
@@ -121,7 +120,6 @@ export function FloatBtn() {
     </div>
   );
 }
-
 
 export default function Home() {
   const [notes, setNotes] = useState(data);
