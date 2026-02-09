@@ -73,10 +73,6 @@ function FloatBtn() {
 }
 
 export default function Home() {
-  return <h1>HOME</h1>;
-}
-
-export function NoteView() {
   const [notes, setNotes] = useState(data);
   console.log(data);
   return (
