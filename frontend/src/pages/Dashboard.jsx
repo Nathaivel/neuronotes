@@ -14,7 +14,7 @@ function WeeklyStats() {
       >
         <CartesianGrid stroke="#ebfeff" strokeDasharray="5 5" />
         <XAxis dataKey="name" />
-        <YAxis dataKey="reviews" />
+        <YAxis scale={"sequential"} dataKey="reviews" />
         <Line
           type="linear"
           dataKey="reviews"
