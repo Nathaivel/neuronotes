@@ -24,15 +24,64 @@ function ControlPanel({ setNotes }) {
 
   return (
     <div className="flex space-x-1 m-2.5 mb-5">
-      <input
-        placeholder="Search"
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          setNotes(search_notes(e.target.value, data));
-        }}
-        className="px-5 py-2.5 border-2 dark:border-stone-500 border-stone-300 border-solid rounded-sm focus:outline-blue-300 w-10/12"
-      ></input>
+      <div className="navsearch">
+        <div className="navsearchinner">
+          <input
+            type="text"
+            placeholder="search"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setNotes(search_notes(e.target.value, data));
+            }}
+          />
+          <svg width="25" height="25" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M11 6C13.7614 6 16 8.23858 16 11M16.6588 16.6549L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+        <style>
+          {`
+          .navsearch {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+          }
+
+          .navsearchinner {
+            position: relative;
+            width: 88%;
+            background-color: #2d394b;
+            border-radius: 10px;
+          }
+
+          .navsearch input {
+            width: 100%;
+            padding: 10px 40px 10px 12px;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            color: #dde8ff;
+          }
+
+          .navsearchinner svg {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #dde8ff;
+            pointer-events: none;
+          }
+        `}
+        </style>
+      </div>
+
       <a
         href="/note"
         className="flex justify-center items-center dark:bg-dark-accent dark:text-dark-soft bg-light-accent px-2.5 rounded-sm text-white w-2/12"
@@ -43,9 +92,9 @@ function ControlPanel({ setNotes }) {
   );
 }
 
-function FloatBtn() {
+export function FloatBtn() {
   return (
-    <div className="FloatBtnContainer">
+    <div className="fixed inset-0 h-screen w-screen flex justify-end items-end p-4 FloatBtnContainer">
       <a
         href="/note"
         className="flex justify-center z-50 items-center dark:bg-dark-accent dark:text-dark-soft bg-light-accent px-2.5 rounded-sm text-white w-2/12"
