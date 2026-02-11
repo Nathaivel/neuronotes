@@ -1,32 +1,37 @@
 import "./navbar.css";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Navbar() {
   return (
     <>
-    <nav>
-      <div className="nav-top">
-        <button className="sidebar-collapse">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M4 6H20M4 12H20M4 18H20"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+      <nav>
+        <div className="nav-top">
+          <button className="sidebar-collapse">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 6H20M4 12H20M4 18H20"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
 
-        <div className="nav-logo">
-          <h3>
-            Neuro<span className="logo-secondary">Notes</span>
-          </h3>
+          <div className="nav-logo">
+            <h3>
+              Neuro<span className="logo-secondary">Notes</span>
+            </h3>
+          </div>
         </div>
-      </div>
 
-  <ul>
+        <ul>
           <li>
-            <a href="/">
+            <NavLink to="/">
               <button>
                 <svg
                   width="25px"
@@ -42,10 +47,10 @@ export default function Navbar() {
                 </svg>
                 <span>Home</span>
               </button>
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a href="/notes">
+            <NavLink to="/notes">
               <button>
                 <svg
                   width="30px"
@@ -67,10 +72,10 @@ export default function Navbar() {
                 </svg>
                 <span>Notes</span>
               </button>
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a href="/dashboard">
+            <NavLink to="/dashboard">
               <button>
                 <svg
                   width="25px"
@@ -85,23 +90,23 @@ export default function Navbar() {
                 </svg>
                 <span>Statistics</span>
               </button>
-            </a>
+            </NavLink>
           </li>
         </ul>
 
-      <div className="navsettings">
-        <button>
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M14.2788 2.15224C13.9085 2 13.439 2..."
-            />
-          </svg>
-          Settings
-        </button>
-      </div>
-    </nav>
+        <div className="navsettings">
+          <button>
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M14.2788 2.15224C13.9085 2 13.439 2..."
+              />
+            </svg>
+            Settings
+          </button>
+        </div>
+      </nav>
     </>
   );
   /*
@@ -109,14 +114,14 @@ export default function Navbar() {
     <div className="flex sticky top-0 left-0 gap-1.5  bg-dark-soft  text-white backdrop-blur-2xl w-full py-5 px-2.5 shadow-2xl justify-between mb-5 ">
       <div className="flex space-x-2">
         <h3 className="text-md font-black sm:text-sm ">
-          <a href="/">Neuronotes</a>
+          <NavLink to="/">Neuronotes</a>
         </h3>
       </div>
 
       <div className="justify-between space-x-2 ">
-        <a href="/">Notes</a>
-        <a href="/review">Review</a>
-        <a href="/dashboard">Dashboard</a>
+        <NavLink to="/">Notes</a>
+        <NavLink to="/review">Review</a>
+        <NavLink to="/dashboard">Dashboard</a>
       </div>
     </div>
     );  */
@@ -124,24 +129,29 @@ export default function Navbar() {
 
 export function CreateButton() {
   return (
-    <div class="createbtn">
-      <svg
-        width="50px"
-        height="50px"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+    <div>
+      <a
+        href="/note"
+        className="flex fixed bottom-0 right-0  justify-end  items-center  dark:text-dark-accent rounded-sm text-white "
       >
-        <path
-          opacity="0.5"
-          d="M12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22Z"
-          fill="currentColor"
-        />
-        <path
-          d="M12 8.25C12.4142 8.25 12.75 8.58579 12.75 9V11.25H15C15.4142 11.25 15.75 11.5858 15.75 12C15.75 12.4142 15.4142 12.75 15 12.75H12.75L12.75 15C12.75 15.4142 12.4142 15.75 12 15.75C11.5858 15.75 11.25 15.4142 11.25 15V12.75H9C8.58579 12.75 8.25 12.4142 8.25 12C8.25 11.5858 8.58579 11.25 9 11.25H11.25L11.25 9C11.25 8.58579 11.5858 8.25 12 8.25Z"
-          fill="#1C274C"
-        />
-      </svg>
+        <svg
+          width="50px"
+          height="50px"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            opacity="0.5"
+            d="M12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22Z"
+            fill="currentColor"
+          />
+          <path
+            d="M12 8.25C12.4142 8.25 12.75 8.58579 12.75 9V11.25H15C15.4142 11.25 15.75 11.5858 15.75 12C15.75 12.4142 15.4142 12.75 15 12.75H12.75L12.75 15C12.75 15.4142 12.4142 15.75 12 15.75C11.5858 15.75 11.25 15.4142 11.25 15V12.75H9C8.58579 12.75 8.25 12.4142 8.25 12C8.25 11.5858 8.58579 11.25 9 11.25H11.25L11.25 9C11.25 8.58579 11.5858 8.25 12 8.25Z"
+            fill="#1C274C"
+          />
+        </svg>
+      </a>
     </div>
   );
 }

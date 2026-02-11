@@ -7,7 +7,7 @@ export default function NotePost({ id, title, description }) {
         <h2 className="text-lg font-bold">{title}</h2>
       </a>
       <div className="flex justify-between">
-        <p>{description}</p>
+        <p>{description.slice(0, 20)}...</p>
 
         <a
           href="/"

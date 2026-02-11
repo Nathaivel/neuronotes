@@ -7,6 +7,7 @@ export default function NoteEdit() {
   let timer = useRef(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function NoteEdit() {
   async function upload_note() {
     if (id != undefined) {
       clearTimeout(timer.current);
+
       timer.current = setTimeout(() => {
         console.log("Saving...");
         update_note(id, title, content);
@@ -47,6 +49,7 @@ export default function NoteEdit() {
           value={title}
           onChange={async (e) => {
             changeNote(e, setTitle);
+            temp_title = e.target.value;
           }}
           placeholder="Title"
           className="w-11/12  p-2 text-3xl focus:outline-none"
@@ -63,6 +66,7 @@ export default function NoteEdit() {
         value={content}
         onChange={async (e) => {
           changeNote(e, setContent);
+          temp_content = e.target.value;
         }}
         placeholder="Write here..."
         className="w-full p-2 text-md border-none focus:outline-none h-screen"

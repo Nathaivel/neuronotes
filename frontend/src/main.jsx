@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./pages/App.jsx";
 import NotFound from "./pages/Error.jsx";
 import Navbar from "./components/Navbar.jsx";
+import { CreateButton } from "./components/Navbar.jsx";
 import NoteEdit from "./pages/NoteEdit.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import HomeView from "./pages/Home.jsx";
@@ -12,9 +13,9 @@ import FloatBtn from "./pages/App.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Navbar />
-    <div className="w-full">
-      <BrowserRouter>
+    <BrowserRouter>
+      <Navbar />
+      <div className="w-full">
         <Routes>
           <Route path="/" element={<HomeView />} />
           <Route path="/notes" element={<App />} />
@@ -23,7 +24,8 @@ createRoot(document.getElementById("root")).render(
           <Route path="/note" element={<NoteEdit />} />
           <Route path="/note/:id" element={<NoteEdit />} />
         </Routes>
-      </BrowserRouter>
-    </div>
+      </div>
+      <CreateButton />
+    </BrowserRouter>
   </StrictMode>,
 );
