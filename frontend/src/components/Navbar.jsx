@@ -130,8 +130,8 @@ export default function Navbar() {
 export function CreateButton() {
   return (
     <div>
-      <a
-        href="/note"
+      <Link
+        to="/note"
         className="flex fixed bottom-0 right-0  justify-end  items-center  dark:text-dark-accent rounded-sm text-white "
       >
         <svg
@@ -151,7 +151,7 @@ export function CreateButton() {
             fill="#1C274C"
           />
         </svg>
-      </a>
+      </Link>
     </div>
   );
 }

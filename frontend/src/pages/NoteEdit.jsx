@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { save_note, fetch_note, update_note } from "../utils/api";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 export default function NoteEdit() {
   let id = useParams().id;
@@ -49,24 +49,22 @@ export default function NoteEdit() {
           value={title}
           onChange={async (e) => {
             changeNote(e, setTitle);
-            temp_title = e.target.value;
           }}
           placeholder="Title"
           className="w-11/12  p-2 text-3xl focus:outline-none"
         ></input>
-        <a
+        <Link
           className="p-2 flex justify-center items-center dark:bg-dark-accent dark:text-dark-soft bg-light-accent w-1/12 rounded-sm"
-          href="/"
+          to="/"
           onClick={() => upload_note()}
         >
           OK
-        </a>
+        </Link>
       </div>
       <textarea
         value={content}
         onChange={async (e) => {
           changeNote(e, setContent);
-          temp_content = e.target.value;
         }}
         placeholder="Write here..."
         className="w-full p-2 text-md border-none focus:outline-none h-screen"
