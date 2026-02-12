@@ -57,7 +57,7 @@ function ControlPanel({ setNotes }) {
           .navsearchinner {
             position: relative;
             width: 88%;
-            background-color: #2d394b;
+            background-color: #1a2433ff;
             border-radius: 10px;
           }
 
