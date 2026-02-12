@@ -23,7 +23,7 @@ function ControlPanel({ setNotes }) {
   const [query, setQuery] = useState("");
 
   return (
-    <div className="flex space-x-1 m-2.5 mb-5">
+    <div className="flex space-x-1 m-2.5 mb-5 mt-6">
       <div className="navsearch">
         <div className="navsearchinner">
           <input
@@ -59,6 +59,7 @@ function ControlPanel({ setNotes }) {
             width: 88%;
             background-color: #1a2433ff;
             border-radius: 10px;
+            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.247);
           }
 
           .navsearch input {
@@ -95,13 +96,26 @@ function ControlPanel({ setNotes }) {
 
 export default function Home() {
   const [notes, setNotes] = useState(data);
-  console.log(data);
+
+  const recentNotes = [...notes].sort(
+    (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+  );
+
   return (
     <div className="block min-h-screen font-sans">
       <div className="flex justify-center w-full">
         <div className="block lg:w-7/12 sm:w-10/12">
+
           <ControlPanel setNotes={setNotes} />
+
+         
+          <h3 className="text-lg font-bold mt-6 mb-2">Recent Notes</h3>
+          <NoteFeed nlist={recentNotes.slice(0,5)} />
+
+        
+          <h3 className="text-lg font-bold mt-6 mb-2">All Notes</h3>
           <NoteFeed nlist={notes} />
+
         </div>
       </div>
     </div>

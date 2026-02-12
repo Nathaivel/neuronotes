@@ -9,7 +9,6 @@ import { CreateButton } from "./components/Navbar.jsx";
 import NoteEdit from "./pages/NoteEdit.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import HomeView from "./pages/Home.jsx";
-import FloatBtn from "./pages/App.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
