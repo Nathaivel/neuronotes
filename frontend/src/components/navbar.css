@@ -166,19 +166,11 @@ nav.collapsed .nav-top{
     display:none;
 }
 
-.nav-logo-colpsd {
-    display: none;
+.nav-logo{
     font-size: 20px;
     font-weight: bold;
 }
 
-.nav-logo-colpsd{
-    display: none;
-}
-
-nav.collapsed .nav-logo-colpsd {
-    display: block;
-}
 
 
 

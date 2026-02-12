@@ -39,15 +39,9 @@ export default function Navbar() {
             </svg>
           </button>
 
-          <div className={`nav-logo nav-logo-colpsd ${collapsed ? "collapsed-show" : ""}`}>
+          <div className="nav-logo">
             <h3>
-              N<span className="logo-secondary">N</span>
-            </h3>
-          </div>
-
-          <div className={`nav-logo ${collapsed ? "collapsed-hide" : ""}`}>
-            <h3>
-              Neuro<span className="logo-secondary">Notes</span>
+              {collapsed ? "N" : "Neuro"}<span className="logo-secondary">{collapsed ? "N" : "Notes"}</span>
             </h3>
           </div>
         </div>
@@ -155,7 +149,7 @@ export function CreateButton() {
   return (
     <div>
       <Link
-        to="/note"
+        to="/note/"
         className="flex fixed bottom-10 right-10  justify-end  items-center  dark:text-dark-accent rounded-sm text-white "
       >
         <svg
