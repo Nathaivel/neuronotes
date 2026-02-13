@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "IBM Plex";
+  src: url("/src/assets/fonts/ibmplex.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "IBM Plex Italic";
+  src: url("/src/assets/fonts/ibmplexitalic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/src/assets/fonts/Manrope.ttf") format("truetype");
+}
+
+
+
 #root {
     display: flex;
     width: 100vw;
@@ -22,6 +39,8 @@
     --color-dark-soft: #121924;
     --color-dark-text: #ebfeff;
     --color-dark-accent: #c1f6ff;
+    --font-plex: "IBM Plex", sans-serif;
+    --font-manrope: "Manrope", sans-serif;
 }
 
 @layer base {

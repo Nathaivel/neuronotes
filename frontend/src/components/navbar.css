@@ -25,7 +25,7 @@ nav {
 
 .nav-top h3 {
     color: #bddfff;
-    font-family: "Courier New", Courier, monospace;
+    font-family: "IBM Plex", Courier, monospace;
     font-weight: bold;
 }
 
@@ -64,6 +64,7 @@ nav ul li {
 }
 
 nav button {
+    font-family: "IBM Plex";
     width: 100%;
     border-radius: 7px;
     background-color: rgba(0, 0, 0, 0);

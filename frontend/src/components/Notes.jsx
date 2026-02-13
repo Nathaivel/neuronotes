@@ -150,6 +150,7 @@ export default function NotePost({ id, title, description, updated_at }) {
           .note-title {
             font-weight: bold;
             font-size: 16px;
+            font-family: "IBM plex";
           }
 
           .note-preview {
