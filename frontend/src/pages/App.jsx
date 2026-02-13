@@ -109,11 +109,11 @@ export default function Home() {
           <ControlPanel setNotes={setNotes} />
 
          
-          <h3 className="text-lg font-bold mt-6 mb-2">Recent Notes</h3>
+          <h3 className="text-xl font-bold mt-6 mb-2">Recent Notes</h3>
           <NoteFeed nlist={recentNotes.slice(0,5)} />
 
         
-          <h3 className="text-lg font-bold mt-6 mb-2">All Notes</h3>
+          <h3 className="text-xl font-bold mt-6 mb-2">All Notes</h3>
           <NoteFeed nlist={notes} />
 
         </div>
