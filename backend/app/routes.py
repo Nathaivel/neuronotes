@@ -7,6 +7,8 @@ from app.database import notes_collection
 from app.models import NoteCreate, NoteUpdate
 from app.utils import is_same_week
 
+from app.autotag_queue import enqueue_autotag
+
 router = APIRouter(prefix="/notes", tags=["Notes"])
 
 
@@ -17,13 +19,9 @@ def note_serializer(note) -> dict:
         "content": note["content"],
         "created_at": note["created_at"],
         "updated_at": note["updated_at"],
+        "reviews": note.get("reviews", []),
+        "tags": note.get("tags", []),
     }
-
-    try:
-        res["reviews"] = note["reviews"]
-    except KeyError:
-        print("Missing values")
-
     return res
 
 
@@ -36,9 +34,12 @@ async def create_note(note: NoteCreate):
         "created_at": now,
         "updated_at": now,
         "reviews": [],
+        "tags": [],
     }
     result = await notes_collection.insert_one(new_note)
-    return {"id": str(result.inserted_id)}
+    note_id = str(result.inserted_id)
+    await enqueue_autotag(note_id, note.content)
+    return {"id": note_id}
 
 
 @router.get("/")
@@ -69,6 +70,9 @@ async def update_note(note_id: str, data: NoteUpdate, review: bool = False):
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Note not found")
 
+    if data.content is not None:
+        await enqueue_autotag(note_id, data.content)
+        
     return {"message": "Note updated"}
 
 

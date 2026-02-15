@@ -21,3 +21,4 @@ class NoteResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
     reviews: List[datetime]
+    tags: List[str] = []
