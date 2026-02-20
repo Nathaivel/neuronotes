@@ -1,3 +1,5 @@
+import Dropdown from "../components/Dropdown.jsx";
+
 export default function HomeView() {
-  return <h1>Hello</h1>;
+  return <Dropdown content="open" />;
 }

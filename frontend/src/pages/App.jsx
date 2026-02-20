@@ -1,9 +1,10 @@
 import { NoteFeed } from "../components/Notes.jsx";
 import NotePost from "../components/Notes.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import search_notes from "../utils/search.js";
 import fetch_notes from "../utils/api.js";
 
+/*
 let data = [
   {
     id: 1,
@@ -16,8 +17,7 @@ let data = [
     description: "Lorem ipsum solum donet amet",
   },
 ];
-
-data = await fetch_notes();
+*/
 
 function ControlPanel({ setNotes }) {
   const [query, setQuery] = useState("");
@@ -94,30 +94,42 @@ function ControlPanel({ setNotes }) {
   );
 }
 
+async function fetchData(func) {
+  await fetch_notes().then((e) => func(e));
+}
+
 export default function Home() {
-  const [notes, setNotes] = useState(data);
+  const [notes, setNotes] = useState(undefined);
 
-  const recentNotes = [...notes].sort(
-    (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
-  );
+  useEffect(() => {
+    if (notes == undefined) {
+      fetchData(setNotes);
+    }
+  });
 
-  return (
-    <div className="block min-h-screen font-sans">
-      <div className="flex justify-center w-full">
-        <div className="block lg:w-7/12 sm:w-10/12">
+  if (notes != undefined) {
+    const recentNotes = [...notes].sort(
+      (a, b) => new Date(b.updated_at) - new Date(a.updated_at),
+    );
 
-          <ControlPanel setNotes={setNotes} />
+    return (
+      <div className="block min-h-screen font-sans">
+        <div className="flex justify-center w-full">
+          <div className="block lg:w-7/12 sm:w-10/12">
+            <ControlPanel setNotes={setNotes} />
 
-         
-          <h3 className="text-xl font-manrope font-bold mt-6 mb-2">Recent Notes</h3>
-          <NoteFeed nlist={recentNotes.slice(0,5)} />
+            <h3 className="text-xl font-manrope font-bold mt-6 mb-2">
+              Recent Notes
+            </h3>
+            <NoteFeed nlist={recentNotes.slice(0, 5)} />
 
-        
-          <h3 className="text-xl font-manrope font-bold mt-6 mb-2">All Notes</h3>
-          <NoteFeed nlist={notes} />
-
+            <h3 className="text-xl font-manrope font-bold mt-6 mb-2">
+              All Notes
+            </h3>
+            <NoteFeed nlist={notes} />
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
