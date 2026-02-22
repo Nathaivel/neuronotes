@@ -9,14 +9,8 @@ This is a fastapi backend for neuronotes.
 
 ### Dependencies
 ```bash
-pip install fastapi uvicorn motor pydantic python-dotenv keybert
+pip install fastapi uvicorn motor pydantic python-dotenv
 ```
->#### Spacy (for autotag)
->```
->pip install spacy 
-> python -m spacy download en_core_web_sm
->```
-
 
 ### Run the server
 ```bash

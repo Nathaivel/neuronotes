@@ -1,9 +1,23 @@
 import fetch_notes from "../utils/api";
+import { useState, useEffect } from "react";
 import { Line, LineChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 let reviews = await fetch_notes("reviews/weekly");
 
 function WeeklyStats() {
+  let [reviews, setReviews] = useState([
+    { name: "Monday", reviews: 0 },
+    { name: "Tuesday", reviews: 0 },
+    { name: "Wednesday", reviews: 0 },
+    { name: "Thursday", reviews: 0 },
+    { name: "Friday", reviews: 0 },
+    { name: "Saturday", reviews: 0 },
+    { name: "Sunday", reviews: 0 },
+  ]);
+  useEffect(() => {
+    fetch_notes("reviews/weekly").then((e) => setReviews(e));
+  }, []);
+
   return (
     <>
       <h1 className="text-xl font-black">Reviews this week</h1>
