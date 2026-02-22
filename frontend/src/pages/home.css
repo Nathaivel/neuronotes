@@ -1,0 +1,225 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    scroll-behavior: smooth;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #0d1117;
+}
+
+.homepage {
+    display: flex;
+    position: relative;
+    padding: 30px;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tdpick-outer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.tdpick-left {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+    max-width: 70%;
+}
+
+.homepage h1 {
+    font-size: 48px;
+}
+
+.homepage p {
+    font-weight: bold;
+    opacity: 0.8;
+}
+.tdpick-content p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tdpick-content p span {
+    font-weight: bolder;
+    color: rgb(185, 195, 255);
+}
+.tdpick-container {
+    background: linear-gradient(145deg, #15233d 0%, #2d0c24 50%, #240628 100%);
+
+    background-size: 200%;
+
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+    box-sizing: border-box;
+    padding: 30px;
+    border-radius: 20px;
+    color: white;
+    animation: bganim 3s infinite alternate;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes bganim {
+    0% {
+        background-position: left;
+    }
+    100% {
+        background-position: right;
+    }
+}
+
+.tdpick-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap:;
+}
+
+.tdpick-goto {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.take-quiz-btn {
+    background: white;
+    color: #0d1117;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.take-quiz-btn svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+    fill: currentColor;
+    transition: 0.3s;
+}
+
+.take-quiz-btn:hover {
+    background-color: black;
+    color: white;
+}
+
+.take-quiz-btn:hover svg {
+    transform: translateX(5px);
+}
+.take-quiz-btn:active {
+    scale: 0.95;
+}
+
+.tdpick-questions {
+    width: 100%;
+    text-align: right;
+    font-size: 14px;
+}
+
+.home-feed {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+    width: 95%;
+}
+
+.note-element {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border-radius: 14px;
+
+    background: #121924;
+    color: white;
+
+    transition: 0.18s;
+    cursor: pointer;
+}
+
+.note-element:hover {
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        0 0 18px rgba(177, 162, 255, 0.25);
+}
+
+.note-element:active {
+    scale: 0.98;
+}
+
+.note-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    overflow: hidden;
+}
+
+.note-text h2 {
+    font-size: 16px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.note-text p {
+    font-size: 13px;
+    opacity: 0.7;
+
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.note-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+}
+.note-revise .note-arrow svg,
+.note-urgent .note-arrow svg,
+.note-weak .note-arrow svg {
+    fill: black;
+}
+.note-arrow svg {
+    width: 16px;
+    height: 16px;
+    fill: #ffffff;
+    transition: 0.25s;
+}
+.home-headings {
+    width: 95%;
+    margin-top: 30px;
+    color: white;
+}
+.note-urgent {
+    background-color: #ff5a5a;
+    color: black;
+}
+.note-weak {
+    background-color: #ff8383;
+    color: black;
+}
+.note-revise {
+    background-color: #dfb2ea;
+    color: black;
+}
