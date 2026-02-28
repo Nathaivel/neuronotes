@@ -155,6 +155,7 @@ export default function NotePost({ id, title, description, updated_at }) {
             border-radius: 14px;
             cursor: pointer;
             transition: 0.15s;
+            background-color: #121924;
           }
 
           .note-card:hover {

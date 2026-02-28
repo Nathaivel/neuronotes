@@ -43,7 +43,7 @@ export default function NoteEdit() {
   }
 
   return (
-    <div>
+    <div className="relative h-screen flex flex-col">
       <div className="w-full flex space-x-2 border-b dark:border-dark-soft border-light-soft border-solid relative">
         <input
           value={title}
@@ -70,7 +70,6 @@ export default function NoteEdit() {
         placeholder="Write here..."
         className="w-full p-2 text-md border-none focus:outline-none h-screen"
       ></textarea>
-  
     </div>
   );
 }
@@ -80,8 +79,12 @@ function NoteEditorBar() {
     <div className="note-editor-bar">
       <div className="note-editor-bar-buttons">
         <button type="button">H1</button>
-        <button type="button"><b>B</b></button>
-        <button type="button"><u>U</u></button>
+        <button type="button">
+          <b>B</b>
+        </button>
+        <button type="button">
+          <u>U</u>
+        </button>
 
         {/* Highlight Icon */}
         <button type="button" aria-label="Highlight">
@@ -104,9 +107,7 @@ function NoteEditorBar() {
         </button>
       </div>
 
-      <div className="note-editor-word-count">
-        364 words
-      </div>
+      <div className="note-editor-word-count">364 words</div>
       <style>{`
         .note-editor-bar {
           position: absolute;
