@@ -35,3 +35,9 @@
 ```diff
 + Added Monthly Review System
 ```
+
+# v1.0.4
+## Added Monthly Review and Merged to branch 'main'
+```c
+// MERGED to main
+```
