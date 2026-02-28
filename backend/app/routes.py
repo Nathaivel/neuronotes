@@ -5,9 +5,10 @@ from fastapi import APIRouter, HTTPException
 
 from app.database import notes_collection
 from app.models import NoteCreate, NoteUpdate
-from app.utils import is_same_week
+from app.utils import is_same_week, is_same_month
 from app.mcq_question_generator import generate_questions_pipeline
 from app.autotag_queue import enqueue_autotag
+import calendar
 
 router = APIRouter(prefix="/notes", tags=["Notes"])
 
@@ -121,6 +122,21 @@ async def get_weekly_review():
 
     return week
 
+@router.get("/reviews/monthly")
+async def get_monthly_review():
+    notes = await get_all_notes()
+    today = datetime.utcnow()
+    days_in_month = calendar.monthrange(today.year, today.month)[1]
+    month = [{"day": i, "reviews": 0} for i in range(1, days_in_month + 1)]
+    for note in notes:
+        index = len(note["reviews"]) - 1
+        while index >= 0:
+            if is_same_month(note["reviews"][index], today):
+                month[note["reviews"][index].day - 1]["reviews"] += 1
+                index -= 1
+            else:
+                break
+    return month
 
 @router.delete("/{note_id}")
 async def delete_note(note_id: str):

@@ -23,3 +23,21 @@
 ```diff
 + Added Question Generator System.
 ```
+
+# v1.0.3
+## Added Question Generator and Merged to branch 'main'
+```c
+// MERGED to main
+```
+
+# v1.0.3 - Beta 1
+## Added Monthly Review
+```diff
++ Added Monthly Review System
+```
+
+# v1.0.4
+## Added Monthly Review and Merged to branch 'main'
+```c
+// MERGED to main
+```
