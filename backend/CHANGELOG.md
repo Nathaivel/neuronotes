@@ -17,3 +17,9 @@
 + Added Auto-Tags Logic with Queue System.
 + Minor Overhauls in models.py, routes.py and main.py
 ```
+
+# v1.0.2 - Beta 1
+## Added Question Generator [Experimental]
+```diff
++ Added Question Generator System.
+```

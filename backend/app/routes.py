@@ -6,7 +6,7 @@ from fastapi import APIRouter, HTTPException
 from app.database import notes_collection
 from app.models import NoteCreate, NoteUpdate
 from app.utils import is_same_week
-
+from app.mcq_question_generator import generate_questions_pipeline
 from app.autotag_queue import enqueue_autotag
 
 router = APIRouter(prefix="/notes", tags=["Notes"])
@@ -128,3 +128,25 @@ async def delete_note(note_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Note not found")
     return {"message": "Note deleted"}
+
+@router.get("/{note_id}/mcqgen")
+async def mcqgen(note_id: str):
+    note = await notes_collection.find_one({"_id":ObjectId(note_id)})
+
+    if not note:
+        raise HTTPException(status_code=404, detail="Note not found")
+
+    content = note.get("content", "")
+
+    if not content.strip(): 
+        raise HTTPException(status_code=400, detail="Note has no content")
+    
+    try:
+        questions = await generate_questions_pipeline(content)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="MCQ generation Failed")
+    
+    return{
+        "note_id": note_id,
+        "questions":questions
+    }
