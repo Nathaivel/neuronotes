@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-
+import NavCollapse from "../assets/nav-collapse.svg?react";
 
 export default function Navbar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -22,26 +22,15 @@ export default function Navbar() {
     <>
       <nav className={collapsed ? "collapsed" : ""}>
         <div className="nav-top">
-          
           <button className="sidebar-collapse" onClick={navCollapse}>
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4 6H20M4 12H20M4 18H20"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <NavCollapse />
           </button>
-
           <div className="nav-logo">
             <h3>
-              {collapsed ? "N" : "Neuro"}<span className="logo-secondary">{collapsed ? "N" : "Notes"}</span>
+              {collapsed ? "N" : "Neuro"}
+              <span className="logo-secondary">
+                {collapsed ? "N" : "Notes"}
+              </span>
             </h3>
           </div>
         </div>
@@ -105,7 +94,9 @@ export default function Navbar() {
                 >
                   <path d="M521.58 516.763v-472.816c250.725 22.642 450.175 222.092 472.817 472.817h-472.816zM918.229 593.091h-435.436c-21.963 0-39.769-17.805-39.769-39.769 0 0 0 0 0 0v-435.463c-222.914 20.121-397.682 207.273-397.682 435.436 0 241.605 195.898 437.452 437.451 437.451 228.163 0 415.339-174.715 435.436-397.657z" />
                 </svg>
-                <span className={collapsed ? "collapsed-hide" : ""}>Statistics</span>
+                <span className={collapsed ? "collapsed-hide" : ""}>
+                  Statistics
+                </span>
               </button>
             </NavLink>
           </li>
