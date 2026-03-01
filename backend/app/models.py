@@ -21,3 +21,8 @@ class NoteResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
     reviews: List[datetime]
+    tags: List[str] = []
+    summary: Optional[str] = None
+    summary_status: Optional[str] = None
+    summary_metrics: Optional[dict] = None
+    summary_review: Optional[dict] = None

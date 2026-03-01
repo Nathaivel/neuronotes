@@ -3,7 +3,19 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes import router
 
-app = FastAPI(title="Notes App Backend")
+from app.autotag_queue import start_tag_workers
+from app.summarization_queue import start_summarizer_workers
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await start_tag_workers()
+    await start_summarizer_workers()
+    #print("Tag workers started")
+    yield
+    #print("Shutting down tag workers...")
+
+app = FastAPI(title="Notes App Backend", lifespan=lifespan)
 
 app.include_router(router)
 app.add_middleware(

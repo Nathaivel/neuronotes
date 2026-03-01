@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+motor
+pydantic
+python-dotenv
+keybert
+spacy
+ollama
+pymongo
+bson

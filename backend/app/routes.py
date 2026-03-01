@@ -5,7 +5,11 @@ from fastapi import APIRouter, HTTPException
 
 from app.database import notes_collection
 from app.models import NoteCreate, NoteUpdate
-from app.utils import is_same_week
+from app.utils import is_same_week, is_same_month
+from app.mcq_question_generator import generate_questions_pipeline
+from app.autotag_queue import enqueue_autotag
+from app.summarization_queue import summarizer_queue
+import calendar
 
 router = APIRouter(prefix="/notes", tags=["Notes"])
 
@@ -17,6 +21,12 @@ def note_serializer(note) -> dict:
         "content": note["content"],
         "created_at": note["created_at"],
         "updated_at": note["updated_at"],
+        "reviews": note.get("reviews", []),
+        "tags": note.get("tags", []),
+        "summary": note.get("summary"),
+        "summary_status": note.get("summary_status"),
+        "summary_metrics": note.get("summary_metrics"),
+        "summary_review": note.get("summary_review"),
     }
 
     try:
@@ -30,16 +40,27 @@ def note_serializer(note) -> dict:
 @router.post("/")
 async def create_note(note: NoteCreate):
     now = datetime.utcnow()
+
     new_note = {
         "title": note.title,
         "content": note.content,
         "created_at": now,
         "updated_at": now,
         "reviews": [],
+        "tags": [],
+        "summary": None,
+        "summary_metrics": None,
+        "summary_review": None,
+        "summary_status": "pending",
     }
-    result = await notes_collection.insert_one(new_note)
-    return {"id": str(result.inserted_id)}
 
+    result = await notes_collection.insert_one(new_note)
+    note_id = str(result.inserted_id)
+
+    await enqueue_autotag(note_id, note.content)
+    #await summarizer_queue.put((note_id, note.content)) 
+
+    return {"id": note_id}
 
 @router.get("/")
 async def get_all_notes():
@@ -62,6 +83,14 @@ async def update_note(note_id: str, data: NoteUpdate, review: bool = False):
     update_data = {k: v for k, v in data.dict().items() if v is not None}
     update_data["updated_at"] = datetime.utcnow()
 
+    if data.content is not None:
+        update_data.update({
+            "summary": None,
+            "summary_metrics": None,
+            "summary_review": None,
+            "summary_status": "pending"
+        })
+
     result = await notes_collection.update_one(
         {"_id": ObjectId(note_id)}, {"$set": update_data}
     )
@@ -69,6 +98,10 @@ async def update_note(note_id: str, data: NoteUpdate, review: bool = False):
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Note not found")
 
+    if data.content is not None:
+        await enqueue_autotag(note_id, data.content)
+        #await summarizer_queue.put((note_id, data.content)) 
+        
     return {"message": "Note updated"}
 
 
@@ -117,6 +150,21 @@ async def get_weekly_review():
 
     return week
 
+@router.get("/reviews/monthly")
+async def get_monthly_review():
+    notes = await get_all_notes()
+    today = datetime.utcnow()
+    days_in_month = calendar.monthrange(today.year, today.month)[1]
+    month = [{"day": i, "reviews": 0} for i in range(1, days_in_month + 1)]
+    for note in notes:
+        index = len(note["reviews"]) - 1
+        while index >= 0:
+            if is_same_month(note["reviews"][index], today):
+                month[note["reviews"][index].day - 1]["reviews"] += 1
+                index -= 1
+            else:
+                break
+    return month
 
 @router.delete("/{note_id}")
 async def delete_note(note_id: str):
@@ -124,3 +172,44 @@ async def delete_note(note_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Note not found")
     return {"message": "Note deleted"}
+
+@router.get("/{note_id}/mcqgen")
+async def mcqgen(note_id: str):
+    note = await notes_collection.find_one({"_id":ObjectId(note_id)})
+
+    if not note:
+        raise HTTPException(status_code=404, detail="Note not found")
+
+    content = note.get("content", "")
+
+    if not content.strip(): 
+        raise HTTPException(status_code=400, detail="Note has no content")
+    
+    try:
+        questions = await generate_questions_pipeline(content)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="MCQ generation Failed")
+    
+    return{
+        "note_id": note_id,
+        "questions":questions
+    }
+
+@router.get("/{note_id}/summarize")
+async def summarize(note_id: str):
+    note = await notes_collection.find_one({"_id":ObjectId(note_id)})
+
+    if not note:
+        raise HTTPException(status_code=404, detail="Note not found")
+    
+    content = note.get("content", "")
+
+    if not content.strip():
+        raise HTTPException(status_code=400, detail="Note has no content")
+    
+    try:
+        await summarizer_queue.put((note_id, content))
+    except:
+        raise HTTPException(status_code=500, detail="Summarization Failed")
+
+    return {"status": 200} 

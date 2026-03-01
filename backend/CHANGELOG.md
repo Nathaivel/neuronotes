@@ -10,3 +10,57 @@
 + Fixed a dotenv loading bug in database.py.
 + Added a sample dotenv file.
 ```
+
+# v1.0.2
+## Added Auto-Tags and Minor Overhauls and Improvements
+```diff
++ Added Auto-Tags Logic with Queue System.
++ Minor Overhauls in models.py, routes.py and main.py
+```
+
+# v1.0.2 - Beta 1
+## Added Question Generator [Experimental]
+```diff
++ Added Question Generator System.
+```
+
+# v1.0.3
+## Added Question Generator and Merged to branch 'main'
+```c
+// MERGED to main
+```
+
+# v1.0.3 - Beta 1
+## Added Monthly Review
+```diff
++ Added Monthly Review System
+```
+
+# v1.0.4
+## Added Monthly Review and Merged to branch 'main'
+```c
+// MERGED to main
+```
+
+# v1.0.4 - Beta 1
+## Added AI-Summarization Feature and Minor Overhauls
+```diff
++ Added AI Based Note Summarization Feature with Queue System.
++ Minor Overhauls in models.py, routes.py and main.py
+
+! Changes in DB schema.
+```
+
+# v1.0.5
+## Added AI-Summarization Feature and Minor Overhauls to branch 'main'
+```c
+// MERGED to main
+```
+
+# v1.0.6
+## Changes in Working of AI-Summarization Feature
+```diff
+- Removed Auto AI-Summarization on creating new note and when updating existing note.
+
++ Added new API Endpoint for queueing note for AI-Summarization.
+```
