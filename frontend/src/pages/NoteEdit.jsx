@@ -46,10 +46,13 @@ export default function NoteEdit() {
   }
 
   const editor = useEditor({
-    extensions: [StarterKit],
-    content: ''
-  })
-
+  extensions: [StarterKit],
+  content: content,
+  onUpdate: ({ editor }) => {
+    setContent(editor.getHTML());
+  }
+});
+  
   return (
     <div className="relative h-screen flex flex-col">
       <div className="w-full flex space-x-2 border-b dark:border-dark-soft border-light-soft border-solid relative">
