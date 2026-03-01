@@ -41,3 +41,12 @@
 ```c
 // MERGED to main
 ```
+
+# v1.0.4 - Beta 1
+## Added AI-Summarization Feature and Minor Overhauls
+```diff
++ Added AI Based Note Summarization Feature with Queue System.
++ Minor Overhauls in models.py, routes.py and main.py
+
+! Changes in DB schema.
+```
