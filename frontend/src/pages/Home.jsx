@@ -1,6 +1,51 @@
 import Dropdown from "../components/Dropdown.jsx";
 import "./home.css";
+import { NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { fetchData } from "./App.jsx";
+
+function NoteCard({ title, description, type = "" }) {
+  return (
+    <div class={"note-element " + type}>
+      <div class="note-text">
+        <h2>{title}</h2>
+        <p>{description}</p>
+      </div>
+
+      <div class="note-arrow">
+        <svg viewBox="0 0 1024 1024">
+          <path d="M256 120.768L306.432 64 768 512l-461.568 448L256 903.232 659.072 512z" />
+        </svg>
+      </div>
+    </div>
+  );
+}
 export default function HomeView() {
+  const [notes, setNotes] = useState(undefined);
+  let recent = <p>Loading...</p>;
+
+  useEffect(() => {
+    if (notes == undefined) {
+      fetchData(setNotes);
+    }
+  }, []);
+
+  if (notes != undefined) {
+    const recentNotes = [...notes]
+      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+      .slice(0, 5);
+    recent = recentNotes.map((note) => (
+      <>
+        <NavLink
+          to={`/note/${note.id}`}
+          onClick={async () => log_note_review(id)}
+        >
+          <NoteCard title={note.title} description={note.content} />
+        </NavLink>
+      </>
+    ));
+  }
+
   return (
     <div className="homepage">
       <div className="tdpick-outer">

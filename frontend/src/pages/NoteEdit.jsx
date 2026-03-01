@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { save_note, fetch_note, update_note } from "../utils/api";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import StarterKit from "@tiptap/starter-kit";
+import { useEditor, EditorContent } from "@tiptap/react"
+import "./Editor.css";
 
 export default function NoteEdit() {
   let id = useParams().id;
@@ -41,6 +44,11 @@ export default function NoteEdit() {
     hook(e.target.value);
     upload_note();
   }
+
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: '<p></p>'
+  })
 
   return (
     <div className="relative h-screen flex flex-col">

@@ -28,6 +28,12 @@ def note_serializer(note) -> dict:
         "summary_metrics": note.get("summary_metrics"),
         "summary_review": note.get("summary_review"),
     }
+
+    try:
+        res["reviews"] = note["reviews"]
+    except KeyError:
+        print("Missing values")
+
     return res
 
 

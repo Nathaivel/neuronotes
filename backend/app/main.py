@@ -26,6 +26,7 @@ app.add_middleware(
     allow_credentials=True,
 )
 
+
 @app.get("/")
 async def root():
-    return {"status": "200"}
+    return {"status": "Backend running 🚀"}

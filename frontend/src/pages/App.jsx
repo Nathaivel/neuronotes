@@ -94,7 +94,7 @@ function ControlPanel({ setNotes }) {
   );
 }
 
-async function fetchData(func) {
+export async function fetchData(func) {
   await fetch_notes().then((e) => func(e));
 }
 
