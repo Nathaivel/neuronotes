@@ -41,3 +41,26 @@
 ```c
 // MERGED to main
 ```
+
+# v1.0.4 - Beta 1
+## Added AI-Summarization Feature and Minor Overhauls
+```diff
++ Added AI Based Note Summarization Feature with Queue System.
++ Minor Overhauls in models.py, routes.py and main.py
+
+! Changes in DB schema.
+```
+
+# v1.0.5
+## Added AI-Summarization Feature and Minor Overhauls to branch 'main'
+```c
+// MERGED to main
+```
+
+# v1.0.6
+## Changes in Working of AI-Summarization Feature
+```diff
+- Removed Auto AI-Summarization on creating new note and when updating existing note.
+
++ Added new API Endpoint for queueing note for AI-Summarization.
+```
