@@ -50,3 +50,9 @@
 
 ! Changes in DB schema.
 ```
+
+# v1.0.5
+## Added AI-Summarization Feature and Minor Overhauls to branch 'main'
+```c
+// MERGED to main
+```
