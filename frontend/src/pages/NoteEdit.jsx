@@ -22,7 +22,7 @@ export default function NoteEdit() {
         });
       }
     }
-  }, [title, id, content]);
+  }, [id]);
 
   async function upload_note() {
     if (id != undefined) {
@@ -45,13 +45,20 @@ export default function NoteEdit() {
     upload_note();
   }
 
-  const editor = useEditor({
+const editor = useEditor({
   extensions: [StarterKit],
   content: content,
   onUpdate: ({ editor }) => {
     setContent(editor.getHTML());
   }
 });
+
+// Add a separate effect to update the editor when content changes
+useEffect(() => {
+  if (editor && content) {
+    editor.commands.setContent(content);
+  }
+}, [content, editor]);
   
   return (
     <div className="relative h-screen flex flex-col">
