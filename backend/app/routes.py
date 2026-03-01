@@ -8,6 +8,7 @@ from app.models import NoteCreate, NoteUpdate
 from app.utils import is_same_week, is_same_month
 from app.mcq_question_generator import generate_questions_pipeline
 from app.autotag_queue import enqueue_autotag
+from app.summarization_queue import summarizer_queue
 import calendar
 
 router = APIRouter(prefix="/notes", tags=["Notes"])
@@ -22,6 +23,10 @@ def note_serializer(note) -> dict:
         "updated_at": note["updated_at"],
         "reviews": note.get("reviews", []),
         "tags": note.get("tags", []),
+        "summary": note.get("summary"),
+        "summary_status": note.get("summary_status"),
+        "summary_metrics": note.get("summary_metrics"),
+        "summary_review": note.get("summary_review"),
     }
     return res
 
@@ -29,6 +34,7 @@ def note_serializer(note) -> dict:
 @router.post("/")
 async def create_note(note: NoteCreate):
     now = datetime.utcnow()
+
     new_note = {
         "title": note.title,
         "content": note.content,
@@ -36,12 +42,19 @@ async def create_note(note: NoteCreate):
         "updated_at": now,
         "reviews": [],
         "tags": [],
+        "summary": None,
+        "summary_metrics": None,
+        "summary_review": None,
+        "summary_status": "pending",
     }
+
     result = await notes_collection.insert_one(new_note)
     note_id = str(result.inserted_id)
-    await enqueue_autotag(note_id, note.content)
-    return {"id": note_id}
 
+    await enqueue_autotag(note_id, note.content)
+    await summarizer_queue.put((note_id, note.content)) 
+
+    return {"id": note_id}
 
 @router.get("/")
 async def get_all_notes():
@@ -64,6 +77,14 @@ async def update_note(note_id: str, data: NoteUpdate, review: bool = False):
     update_data = {k: v for k, v in data.dict().items() if v is not None}
     update_data["updated_at"] = datetime.utcnow()
 
+    if data.content is not None:
+        update_data.update({
+            "summary": None,
+            "summary_metrics": None,
+            "summary_review": None,
+            "summary_status": "pending"
+        })
+
     result = await notes_collection.update_one(
         {"_id": ObjectId(note_id)}, {"$set": update_data}
     )
@@ -73,6 +94,7 @@ async def update_note(note_id: str, data: NoteUpdate, review: bool = False):
 
     if data.content is not None:
         await enqueue_autotag(note_id, data.content)
+        await summarizer_queue.put((note_id, data.content)) 
         
     return {"message": "Note updated"}
 
