@@ -2,6 +2,7 @@ import json
 import re
 from typing import List, Dict
 from ollama import AsyncClient
+from app.utils import clean_html_content
 
 
 # =========================
@@ -154,6 +155,8 @@ If unable:
 # MAIN PIPELINE
 # =========================
 async def generate_questions_pipeline(paragraph: str):
+
+    paragraph = clean_html_content(paragraph)
 
     if not is_meaningful(paragraph):
         return []

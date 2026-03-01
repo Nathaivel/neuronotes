@@ -3,6 +3,7 @@ import re
 import json
 import time
 from typing import Dict, Optional
+from app.utils import clean_html_content
 
 # =========================================================
 # CONFIG
@@ -205,6 +206,7 @@ class SummarizationPipeline:
 
     def run(self, note: str) -> Dict:
 
+        note = clean_html_content(note)
         validation = self.validator.validate(note)
 
         if not validation.get("valid"):

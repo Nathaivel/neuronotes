@@ -64,3 +64,10 @@
 
 + Added new API Endpoint for queueing note for AI-Summarization.
 ```
+
+# v1.0.7
+## Changes in Working of AutoTagging Feature
+```diff
+- Removed AutoTagging based on Spacy, Keybert and regex.
++ Added AutoTagging based on Ollama Based AI.
+```
