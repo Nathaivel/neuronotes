@@ -10,6 +10,7 @@ import NoteEdit from "./pages/NoteEdit.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import HomeView from "./pages/Home.jsx";
 
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
@@ -22,6 +23,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="*" element={<NotFound />} />
           <Route path="/note" element={<NoteEdit />} />
           <Route path="/note/:id" element={<NoteEdit />} />
+	  
         </Routes>
       </div>
       <CreateButton />

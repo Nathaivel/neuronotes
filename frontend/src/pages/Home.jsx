@@ -1,6 +1,51 @@
 import Dropdown from "../components/Dropdown.jsx";
 import "./home.css";
+import { NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { fetchData } from "./App.jsx";
+
+function NoteCard({ title, description, type = "" }) {
+  return (
+    <div class={"note-element " + type}>
+      <div class="note-text">
+        <h2>{title}</h2>
+        <p>{description}</p>
+      </div>
+
+      <div class="note-arrow">
+        <svg viewBox="0 0 1024 1024">
+          <path d="M256 120.768L306.432 64 768 512l-461.568 448L256 903.232 659.072 512z" />
+        </svg>
+      </div>
+    </div>
+  );
+}
 export default function HomeView() {
+  const [notes, setNotes] = useState(undefined);
+  let recent = <p>Loading...</p>;
+
+  useEffect(() => {
+    if (notes == undefined) {
+      fetchData(setNotes);
+    }
+  }, []);
+
+  if (notes != undefined) {
+    const recentNotes = [...notes]
+      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+      .slice(0, 5);
+    recent = recentNotes.map((note) => (
+      <>
+        <NavLink
+          to={`/note/${note.id}`}
+          onClick={async () => log_note_review(id)}
+        >
+          <NoteCard title={note.title} description={note.content} />
+        </NavLink>
+      </>
+    ));
+  }
+
   return (
     <div class="homepage">
       <div class="tdpick-outer">
@@ -54,49 +99,21 @@ export default function HomeView() {
         <h2>Revision Feed</h2>
       </div>
       <div class="home-feed">
-        <div class="note-element note-urgent">
-          <div class="note-text">
-            <h2>Lorem Ipsum</h2>
-            <p>this is a sample note</p>
-            <p class="note-element-status">Urgent</p>
-          </div>
-
-          <div class="note-arrow">
-            <svg viewBox="0 0 1024 1024">
-              <path d="M256 120.768L306.432 64 768 512l-461.568 448L256 903.232 659.072 512z" />
-            </svg>
-          </div>
-        </div>
-        <div class="note-element note-weak">
-          <div class="note-text">
-            <h2>Lorem Ipsum</h2>
-            <p>
-              this is also a sample note but with more text for testing purposes
-              and omg it works .
-            </p>
-            <p class="note-element-status">Weak area</p>
-          </div>
-          <div class="note-arrow">
-            <svg viewBox="0 0 1024 1024">
-              <path d="M256 120.768L306.432 64 768 512l-461.568 448L256 903.232 659.072 512z" />
-            </svg>
-          </div>
-        </div>
-        <div class="note-element note-revise">
-          <div class="note-text">
-            <h2>Lorem Ipsum</h2>
-            <p>
-              this is also a sample note but with more text for testing purposes
-              and omg it works .
-            </p>
-            <p class="note-element-status">Revise</p>
-          </div>
-          <div class="note-arrow">
-            <svg viewBox="0 0 1024 1024">
-              <path d="M256 120.768L306.432 64 768 512l-461.568 448L256 903.232 659.072 512z" />
-            </svg>
-          </div>
-        </div>
+        <NoteCard
+          title="Lorem ipsum"
+          description="A lannister always repays his debts"
+          type="note-urgent"
+        />
+        <NoteCard
+          title="Lorem ipsum"
+          description="What is dead may never die"
+          type="note-weak"
+        />
+        <NoteCard
+          title="Lorem ipsum"
+          description="A true king has no power"
+          type="note-revise"
+        />
         <div class="note-element note-weak">
           <div class="note-text">
             <h2>Lorem Ipsum</h2>
@@ -117,101 +134,27 @@ export default function HomeView() {
         <h2>Pinned Notes</h2>
       </div>
       <div class="home-feed">
-        <div class="note-element">
-          <div class="note-text">
-            <h2>Lorem Ipsum</h2>
-            <p>
-              this is also a sample note but with more text for testing purposes
-              and omg it works .
-            </p>
-          </div>
-
-          <div class="note-arrow">
-            <svg viewBox="0 0 1024 1024">
-              <path d="M256 120.768L306.432 64 768 512l-461.568 448L256 903.232 659.072 512z" />
-            </svg>
-          </div>
-        </div>
-        <div class="note-element">
-          <div class="note-text">
-            <h2>Lorem Ipsum</h2>
-            <p>
-              this is also a sample note but with more text for testing purposes
-              and omg it works .
-            </p>
-          </div>
-
-          <div class="note-arrow">
-            <svg viewBox="0 0 1024 1024">
-              <path d="M256 120.768L306.432 64 768 512l-461.568 448L256 903.232 659.072 512z" />
-            </svg>
-          </div>
-        </div>
-        <div class="note-element">
-          <div class="note-text">
-            <h2>Lorem Ipsum</h2>
-            <p>
-              this is also a sample note but with more text for testing purposes
-              and omg it works .
-            </p>
-          </div>
-
-          <div class="note-arrow">
-            <svg viewBox="0 0 1024 1024">
-              <path d="M256 120.768L306.432 64 768 512l-461.568 448L256 903.232 659.072 512z" />
-            </svg>
-          </div>
-        </div>
-        <div class="note-element">
-          <div class="note-text">
-            <h2>Lorem Ipsum</h2>
-            <p>
-              this is also a sample note but with more text for testing purposes
-              and omg it works .
-            </p>
-          </div>
-
-          <div class="note-arrow">
-            <svg viewBox="0 0 1024 1024">
-              <path d="M256 120.768L306.432 64 768 512l-461.568 448L256 903.232 659.072 512z" />
-            </svg>
-          </div>
-        </div>
-        <div class="note-element">
-          <div class="note-text">
-            <h2>Lorem Ipsum</h2>
-            <p>
-              this is also a sample note but with more text for testing purposes
-              and omg it works .
-            </p>
-          </div>
-
-          <div class="note-arrow">
-            <svg viewBox="0 0 1024 1024">
-              <path d="M256 120.768L306.432 64 768 512l-461.568 448L256 903.232 659.072 512z" />
-            </svg>
-          </div>
-        </div>
-        <div class="note-element">
-          <div class="note-text">
-            <h2>Lorem Ipsum</h2>
-            <p>
-              this is also a sample note but with more text for testing purposes
-              and omg it works .
-            </p>
-          </div>
-
-          <div class="note-arrow">
-            <svg viewBox="0 0 1024 1024">
-              <path d="M256 120.768L306.432 64 768 512l-461.568 448L256 903.232 659.072 512z" />
-            </svg>
-          </div>
-        </div>
+        <NoteCard
+          title="Lorem ipsum"
+          description="lorem ipsum dolor donet amet carbos adelie alpine debian chromo instos rawas teras hercul"
+        />
+        <NoteCard
+          title="Lorem ipsum"
+          description="lorem ipsum dolor donet amet carbos adelie alpine debian chromo instos rawas teras hercul"
+        />
+        <NoteCard
+          title="Lorem ipsum"
+          description="lorem ipsum dolor donet amet carbos adelie alpine debian chromo instos rawas teras hercul"
+        />
+        <NoteCard
+          title="Lorem ipsum"
+          description="lorem ipsum dolor donet amet carbos adelie alpine debian chromo instos rawas teras hercul"
+        />
       </div>
       <div class="home-headings">
         <h2>Recent Notes</h2>
       </div>
-      <div class="home-feed"></div>
+      <div class="home-feed">{recent}</div>
     </div>
   );
 }

@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { save_note, fetch_note, update_note } from "../utils/api";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import StarterKit from "@tiptap/starter-kit";
+import { useEditor, EditorContent } from "@tiptap/react"
+import "./Editor.css";
 
 export default function NoteEdit() {
   let id = useParams().id;
@@ -42,6 +45,11 @@ export default function NoteEdit() {
     upload_note();
   }
 
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: '<p></p>'
+  })
+
   return (
     <div>
       <div className="w-full flex space-x-2 border-b dark:border-dark-soft border-light-soft border-solid">
@@ -61,14 +69,12 @@ export default function NoteEdit() {
           OK
         </Link>
       </div>
-      <textarea
-        value={content}
-        onChange={async (e) => {
-          changeNote(e, setContent);
-        }}
-        placeholder="Write here..."
-        className="w-full p-2 text-md border-none focus:outline-none h-screen"
-      ></textarea>
+     
+        <EditorContent
+          editor={editor}
+          className="border-none focus:outline-none w-full absolute h-screen"
+        />
+
     </div>
   );
 }

@@ -1,0 +1,26 @@
+.ProseMirror{
+  outline: none;
+  min-height: 100vh;
+}
+
+.ProseMirror h1{
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.ProseMirror h2{
+  font-size: 26px;
+  font-weight: bold;
+}
+.ProseMirror h3{
+  font-size: 20px;
+  font-weight: bold;
+}
+.ProseMirror ul{
+  padding-left: 20px;
+
+}
+
+.ProseMirror li {
+  margin-bottom: 5px;
+}
