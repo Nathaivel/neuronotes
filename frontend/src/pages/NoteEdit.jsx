@@ -47,7 +47,7 @@ export default function NoteEdit() {
 
   const editor = useEditor({
     extensions: [StarterKit],
-    content: '<p></p>'
+    content: ''
   })
 
   return (
@@ -70,14 +70,7 @@ export default function NoteEdit() {
         </Link>
       </div>
       <NoteEditorBar />
-      <textarea
-        value={content}
-        onChange={async (e) => {
-          changeNote(e, setContent);
-        }}
-        placeholder="Write here..."
-        className="w-full p-2 text-md border-none focus:outline-none h-screen"
-      ></textarea>
+    <EditorContent editor={editor} placeholder="Write here..." />
     </div>
   );
 }

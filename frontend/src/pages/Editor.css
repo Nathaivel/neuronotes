@@ -18,7 +18,7 @@
 }
 .ProseMirror ul{
   padding-left: 20px;
-
+  list-style: disc;
 }
 
 .ProseMirror li {
