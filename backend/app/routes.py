@@ -52,7 +52,7 @@ async def create_note(note: NoteCreate):
     note_id = str(result.inserted_id)
 
     await enqueue_autotag(note_id, note.content)
-    await summarizer_queue.put((note_id, note.content)) 
+    #await summarizer_queue.put((note_id, note.content)) 
 
     return {"id": note_id}
 
@@ -94,7 +94,7 @@ async def update_note(note_id: str, data: NoteUpdate, review: bool = False):
 
     if data.content is not None:
         await enqueue_autotag(note_id, data.content)
-        await summarizer_queue.put((note_id, data.content)) 
+        #await summarizer_queue.put((note_id, data.content)) 
         
     return {"message": "Note updated"}
 
@@ -188,3 +188,22 @@ async def mcqgen(note_id: str):
         "note_id": note_id,
         "questions":questions
     }
+
+@router.get("/{note_id}/summarize")
+async def summarize(note_id: str):
+    note = await notes_collection.find_one({"_id":ObjectId(note_id)})
+
+    if not note:
+        raise HTTPException(status_code=404, detail="Note not found")
+    
+    content = note.get("content", "")
+
+    if not content.strip():
+        raise HTTPException(status_code=400, detail="Note has no content")
+    
+    try:
+        await summarizer_queue.put((note_id, content))
+    except:
+        raise HTTPException(status_code=500, detail="Summarization Failed")
+
+    return {"status": 200} 

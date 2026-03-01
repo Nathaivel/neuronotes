@@ -56,3 +56,11 @@
 ```c
 // MERGED to main
 ```
+
+# v1.0.6
+## Changes in Working of AI-Summarization Feature
+```diff
+- Removed Auto AI-Summarization on creating new note and when updating existing note.
+
++ Added new API Endpoint for queueing note for AI-Summarization.
+```
