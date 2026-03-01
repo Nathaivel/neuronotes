@@ -1,6 +1,7 @@
 import { delete_note, log_note_review } from "../utils/api";
 import { NavLink } from "react-router-dom";
 import Dropdown from "./Dropdown.jsx";
+import ReviewIcon from "../assets/testtube.svg?react";
 
 // export default function NotePost({ id, title, description }) {
 //   return (
@@ -68,27 +69,7 @@ export default function NotePost({ id, title, description, updated_at }) {
       <div className="note-side">
         {/* TEST / REVIEW (test-tube icon) */}
         <button className="note-action">
-          <svg viewBox="0 0 512 512" fill="currentColor">
-            <g>
-              <path
-                d="M247.174,358.948c0.007-6.302-5.082-11.408-11.384-11.416c-6.31-0.017-11.424,5.098-11.432,11.391
-              c0,6.31,5.098,11.424,11.391,11.424C242.06,370.364,247.174,365.258,247.174,358.948z"
-              />
-              <path
-                d="M242.165,418.863c-4.815-0.008-8.702,3.894-8.717,8.693c0,4.799,3.894,8.694,8.693,8.694
-              c4.798,0.008,8.692-3.886,8.692-8.677C250.841,422.765,246.964,418.879,242.165,418.863z"
-              />
-              <path
-                d="M280.226,387.023c-5.123-0.008-9.292,4.136-9.292,9.258c0,5.123,4.153,9.275,9.268,9.275
-              c5.122,0.008,9.266-4.136,9.266-9.258C289.476,391.168,285.339,387.023,280.226,387.023z"
-              />
-              <path
-                d="M328.894,0H183.106c-19.026,0-34.49,15.472-34.49,34.498c0,12.288,6.48,23.098,16.19,29.206v3.126v353.98
-              c0,50.276,40.905,91.19,91.19,91.19c50.284,0,91.197-40.914,91.197-91.19V66.83v-3.126c9.711-6.108,16.19-16.918,16.19-29.206
-              C363.384,15.472,347.904,0,328.894,0z"
-              />
-            </g>
-          </svg>
+          <ReviewIcon />
         </button>
 
         {/* QUIZ (rocket icon) */}
