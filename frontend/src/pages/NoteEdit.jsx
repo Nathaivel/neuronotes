@@ -10,8 +10,12 @@ export default function NoteEdit() {
   let timer = useRef(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  
 
   const navigate = useNavigate();
+  
+
+
 
   useEffect(() => {
     if (id != undefined) {
@@ -22,33 +26,44 @@ export default function NoteEdit() {
         });
       }
     }
+
   }, [title, id, content]);
 
-  async function upload_note() {
+  async function upload_note(val) {
     if (id != undefined) {
       clearTimeout(timer.current);
 
       timer.current = setTimeout(() => {
         console.log("Saving...");
-        update_note(id, title, content);
+        update_note(id, title, val);
       }, 1500);
     } else {
-      save_note(title, content).then((r) => {
+      save_note(title, val).then((r) => {
         if (r.id != undefined) {
           navigate(`/note/${r.id}`);
         }
       });
     }
   }
-  async function changeNote(e, hook) {
-    hook(e.target.value);
-    upload_note();
+  async function changeNote(val) {
+    //hook(e.target.value);
+    upload_note(val);
   }
 
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: ''
+      const editor = useEditor({
+      extensions: [StarterKit],
+      content,
+      onUpdate: ({editor}) => {
+        const html = editor.getHTML()
+        changeNote(html)
+      }
   })
+
+  useEffect(() => {
+        if (content && editor){
+          editor.commands.setContent(content,false);
+        }
+  },[editor,content])
 
   return (
     <div className="relative h-screen flex flex-col">
@@ -56,7 +71,8 @@ export default function NoteEdit() {
         <input
           value={title}
           onChange={async (e) => {
-            changeNote(e, setTitle);
+            setTitle(e.target.value)
+            changeNote(editor.getHTML());
           }}
           placeholder="Title"
           className="w-11/12  p-2 text-3xl focus:outline-none"
