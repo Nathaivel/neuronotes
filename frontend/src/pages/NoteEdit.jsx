@@ -10,8 +10,12 @@ export default function NoteEdit() {
   let timer = useRef(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  
 
   const navigate = useNavigate();
+  
+
+
 
   useEffect(() => {
     if (id != undefined) {
@@ -22,51 +26,53 @@ export default function NoteEdit() {
         });
       }
     }
-  }, [id]);
 
-  async function upload_note() {
+  }, [title, id, content]);
+
+  async function upload_note(val) {
     if (id != undefined) {
       clearTimeout(timer.current);
 
       timer.current = setTimeout(() => {
         console.log("Saving...");
-        update_note(id, title, content);
+        update_note(id, title, val);
       }, 1500);
     } else {
-      save_note(title, content).then((r) => {
+      save_note(title, val).then((r) => {
         if (r.id != undefined) {
           navigate(`/note/${r.id}`);
         }
       });
     }
   }
-  async function changeNote(e, hook) {
-    hook(e.target.value);
-    upload_note();
+  async function changeNote(val) {
+    //hook(e.target.value);
+    upload_note(val);
   }
 
-const editor = useEditor({
-  extensions: [StarterKit],
-  content: content,
-  onUpdate: ({ editor }) => {
-    setContent(editor.getHTML());
-  }
-});
+      const editor = useEditor({
+      extensions: [StarterKit],
+      content,
+      onUpdate: ({editor}) => {
+        const html = editor.getHTML()
+        changeNote(html)
+      }
+  })
 
-// Add a separate effect to update the editor when content changes
-useEffect(() => {
-  if (editor && content) {
-    editor.commands.setContent(content);
-  }
-}, [content, editor]);
-  
+  useEffect(() => {
+        if (content && editor){
+          editor.commands.setContent(content,false);
+        }
+  },[editor,content])
+
   return (
     <div className="relative h-screen flex flex-col">
       <div className="w-full flex space-x-2 border-b dark:border-dark-soft border-light-soft border-solid relative">
         <input
           value={title}
           onChange={async (e) => {
-            changeNote(e, setTitle);
+            setTitle(e.target.value)
+            changeNote(editor.getHTML());
           }}
           placeholder="Title"
           className="w-11/12  p-2 text-3xl focus:outline-none"
