@@ -74,7 +74,9 @@
 ```
 
 # v1.0.8
-## Added new route
+## Added New Route and Minor Changes in models.py
 ```diff
 + Added new '/{noteid}/sterilize' route to sterilize note content for use in frontend note sneak-peek.
+
++ Minor change in models.py
 ```

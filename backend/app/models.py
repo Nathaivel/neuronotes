@@ -10,8 +10,9 @@ class NoteCreate(BaseModel):
 
 
 class NoteUpdate(BaseModel):
-    title: Optional[str]
-    content: Optional[str]
+    title: Optional[str] = None
+    content: Optional[str] = None
+    summary: Optional[str] = None
 
 
 class NoteResponse(BaseModel):
