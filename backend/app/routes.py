@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException
 
 from app.database import notes_collection
 from app.models import NoteCreate, NoteUpdate
-from app.utils import is_same_week, is_same_month
+from app.utils import is_same_week, is_same_month, clean_html_content
 from app.mcq_question_generator import generate_questions_pipeline
 from app.autotag_queue import enqueue_autotag
 from app.summarization_queue import summarizer_queue
@@ -213,3 +213,23 @@ async def summarize(note_id: str):
         raise HTTPException(status_code=500, detail="Summarization Failed")
 
     return {"status": 200} 
+
+@router.get("/{note_id}/sterilize")
+async def sterilize(note_id:str):
+    note = await notes_collection.find_one({"_id":ObjectId(note_id)})
+
+    if not note:
+        raise HTTPException(status_code=404, detail="Note not found")
+    
+    content = note.get("content", "")
+
+    if not content.strip():
+        raise HTTPException(status_code=400, detail="Note has no content")
+    
+    try:
+        new = clean_html_content(content)
+    except:
+        raise HTTPException(status_code=500, detail="Sterilize note failed")
+
+    return {"content": new} 
+    

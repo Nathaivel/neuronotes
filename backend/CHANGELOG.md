@@ -69,5 +69,12 @@
 ## Changes in Working of AutoTagging Feature
 ```diff
 - Removed AutoTagging based on Spacy, Keybert and regex.
+
 + Added AutoTagging based on Ollama Based AI.
+```
+
+# v1.0.8
+## Added new route
+```diff
++ Added new '/{noteid}/sterilize' route to sterilize note content for use in frontend note sneak-peek.
 ```
