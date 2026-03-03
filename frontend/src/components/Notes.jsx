@@ -1,4 +1,4 @@
-import { delete_note, log_note_review } from "../utils/api";
+import { delete_note, log_note_review, pin_note } from "../utils/api";
 import { NavLink } from "react-router-dom";
 import Dropdown from "./Dropdown.jsx";
 import ReviewIcon from "../assets/testtube.svg?react";
@@ -74,7 +74,7 @@ export default function NotePost({ id, title, description, updated_at }) {
         </button>
 
         {/* QUIZ (rocket icon) */}
-        <button className="note-action">
+        <button className="note-action" onClick={() => pin_note(id)}>
           <svg viewBox="0 0 1920 1920" fill="currentColor">
             <g fillRule="evenodd">
               <path

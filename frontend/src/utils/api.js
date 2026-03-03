@@ -1,5 +1,10 @@
 let api_url = "http://127.0.0.1:8000";
 
+export async function pin_note(id){
+  console.log("pinned");
+  await fetch(`${api_url}/notes/pin/${id}/`, {method: "PATCH"})
+}
+
 export default async function fetch_notes(route = "") {
   let res = await fetch(`${api_url}/notes/${route}`)
     .then((r) => r.json())

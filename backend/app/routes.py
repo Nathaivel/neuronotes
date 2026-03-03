@@ -27,6 +27,7 @@ def note_serializer(note) -> dict:
         "summary_status": note.get("summary_status"),
         "summary_metrics": note.get("summary_metrics"),
         "summary_review": note.get("summary_review"),
+        "pinned": note.get("pinned"),
     }
 
     try:
@@ -123,27 +124,52 @@ async def mark_review(note_id: str):
         {"_id": ObjectId(note_id)}, {"$set": update_data}
     )
 
+@router.patch("/pin/{note_id}/")
+async def pin_note(note_id: str):
+    note = await get_note(note_id)
+
+    try:
+        if note['pinned']:
+            update_data = {'pinned': False}
+        else:
+            update_data = {'pinned': True}
+    except KeyError:
+        update_data = {"pinned": False}
+
+    result = await notes_collection.update_one(
+        {"_id": ObjectId(note_id)}, {"$set": update_data}
+    )
+
+
+@router.get("/pinned/")
+async def get_all_pinned_notes():
+    notes = []
+
+    async for note in notes_collection.find({"pinned": True}):          
+        notes.append(note_serializer(note))
+
+    return notes
 
 @router.get("/stats/")
 async def get_note_stats():
-    notes = await get_all_notes()
     today = datetime.utcnow()
+    note_count = 0
     total_words = 0
     notes_this_week = 0
 
-    for n in notes:
+    async for n in notes_collection.find():
+        note_count += 1
         total_words += len(clean_html_content(n["content"]).split(" "))
         if is_same_week(today, n["created_at"]):
             notes_this_week += 1
 
     
-    stats = {"total_notes": len(notes),"notes_this_week": notes_this_week,"total_words":total_words}
+    stats = {"total_notes": note_count,"notes_this_week": notes_this_week,"total_words":total_words}
 
     return stats
 
 @router.get("/reviews/weekly")
 async def get_weekly_review():
-    notes = await get_all_notes()
     week = [
         {"name": "Monday", "reviews": 0},
         {"name": "Tuesday", "reviews": 0},
@@ -155,7 +181,7 @@ async def get_weekly_review():
     ]
     today = datetime.utcnow()
 
-    for note in notes:
+    async for note in notes_collection.find():
         index = len(note["reviews"]) - 1
 
         while index >= 0:
@@ -186,9 +212,8 @@ async def get_monthly_review():
 
 @router.get("/reviews/pernote")
 async def get_total_review():
-    notes = await get_all_notes()
     reviews_per_note = []
-    for note in notes:
+    async for note in notes_collection.find():
         reviews_per_note.append({"name":note["title"],"review_count": len(note["reviews"])})
 
     return reviews_per_note

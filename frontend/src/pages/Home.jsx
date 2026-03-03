@@ -3,13 +3,15 @@ import "./home.css";
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchData } from "./App.jsx";
+import {htmlToText} from "../utils/util.js";
+import fetch_notes from "../utils/api.js";
 
 function NoteCard({ title, description, type = "" }) {
   return (
     <div class={"note-element " + type}>
       <div class="note-text">
         <h2>{title}</h2>
-        <p>{description}</p>
+        <p>{htmlToText(description).slice(0,100)}...</p>
       </div>
 
       <div class="note-arrow">
@@ -22,12 +24,18 @@ function NoteCard({ title, description, type = "" }) {
 }
 export default function HomeView() {
   const [notes, setNotes] = useState(undefined);
+  const [pinned, setPinned] = useState(undefined);
   let recent = <p>Loading...</p>;
+  let pins = <p>Loading...</p>;
 
   useEffect(() => {
     if (notes == undefined) {
       fetchData(setNotes);
     }
+    if (pinned == undefined) {
+        fetch_notes("pinned/").then(p => setPinned(p))
+     }
+
   }, []);
 
   if (notes != undefined) {
@@ -45,6 +53,20 @@ export default function HomeView() {
       </>
     ));
   }
+
+  if (pinned != undefined) {
+    pins = pinned.map((note) => (
+      <>
+        <NavLink
+          to={`/note/${note.id}`}
+          onClick={async () => log_note_review(id)}
+        >
+          <NoteCard title={note.title} description={note.content} />
+        </NavLink>
+      </>
+    ));
+  }
+
 
   return (
     <div className="homepage">
@@ -161,7 +183,12 @@ export default function HomeView() {
       <div className="home-headings">
         <h2>Pinned Notes</h2>
       </div>
+
       <div className="home-feed">
+
+      {pins}
+
+{/*
         <div className="note-element">
           <div className="note-text">
             <h2>Lorem Ipsum</h2>
@@ -252,11 +279,14 @@ export default function HomeView() {
             </svg>
           </div>
         </div>
+        */}
       </div>
       <div className="home-headings">
         <h2>Recent Notes</h2>
       </div>
-      <div className="home-feed"></div>
+      <div className="home-feed">
+        {recent}
+      </div>
     </div>
   );
 }

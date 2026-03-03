@@ -27,3 +27,4 @@ class NoteResponse(BaseModel):
     summary_status: Optional[str] = None
     summary_metrics: Optional[dict] = None
     summary_review: Optional[dict] = None
+    pinned: Optional[bool] = False
