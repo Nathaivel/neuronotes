@@ -140,12 +140,17 @@ export default function NotePost({ id, title, description, updated_at }) {
             cursor: pointer;
             transition: 0.15s;
             background-color: #121924;
+            border-radius: 16px;
+            box-shadow:
+            0 10px 30px rgba(0,0,0,0.6),
+            0 0 0 1px rgba(120,170,200,0.08);
+            transition: 0.2s ease;
           }
 
           .note-card:hover {
             box-shadow:
-              0 2px 10px rgba(206, 100, 181, 0.45),
-              0 -2px 15px rgba(177, 162, 255, 0.35);
+              0 0px 20px rgba(206, 100, 181, 0.45),
+              0 0px 1px rgba(177, 162, 255, 0.35);
           }
           /* Accent strip */
           .note-accent {
