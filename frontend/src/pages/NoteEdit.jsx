@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { save_note, fetch_note, update_note } from "../utils/api";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import StarterKit from "@tiptap/starter-kit";
-import { useEditor, EditorContent } from "@tiptap/react"
+import { useEditor, EditorContent } from "@tiptap/react";
 import "./Editor.css";
 
 export default function NoteEdit() {
@@ -10,12 +10,8 @@ export default function NoteEdit() {
   let timer = useRef(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  
 
   const navigate = useNavigate();
-  
-
-
 
   useEffect(() => {
     if (id != undefined) {
@@ -26,7 +22,6 @@ export default function NoteEdit() {
         });
       }
     }
-
   }, [title, id, content]);
 
   async function upload_note(val) {
@@ -50,20 +45,20 @@ export default function NoteEdit() {
     upload_note(val);
   }
 
-      const editor = useEditor({
-      extensions: [StarterKit],
-      content,
-      onUpdate: ({editor}) => {
-        const html = editor.getHTML()
-        changeNote(html)
-      }
-  })
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content,
+    onUpdate: ({ editor }) => {
+      const html = editor.getHTML();
+      changeNote(html);
+    },
+  });
 
   useEffect(() => {
-        if (content && editor){
-          editor.commands.setContent(content,false);
-        }
-  },[editor,content])
+    if (content && editor) {
+      editor.commands.setContent(content, false);
+    }
+  }, [editor, content]);
 
   return (
     <div className="relative h-screen flex flex-col">
@@ -71,7 +66,7 @@ export default function NoteEdit() {
         <input
           value={title}
           onChange={async (e) => {
-            setTitle(e.target.value)
+            setTitle(e.target.value);
             changeNote(editor.getHTML());
           }}
           placeholder="Title"
@@ -86,7 +81,27 @@ export default function NoteEdit() {
         </Link>
       </div>
       <NoteEditorBar />
-    <EditorContent editor={editor} placeholder="Write here..." />
+      <EditorContent editor={editor} placeholder="Write here..." />
+      <style>
+        {`
+          .ProseMirror h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0.5em 0;
+          }
+
+          .ProseMirror h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0.5em 0;
+          }
+
+          .ProseMirror h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+          }
+        `}
+      </style>
     </div>
   );
 }
