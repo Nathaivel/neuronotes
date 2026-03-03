@@ -4,6 +4,9 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import StarterKit from "@tiptap/starter-kit";
 import { useEditor, EditorContent } from "@tiptap/react";
 import "./Editor.css";
+import Backicon from "../assets/back.svg?react";
+import Saveicon from "../assets/save.svg?react";
+
 
 export default function NoteEdit() {
   let id = useParams().id;
@@ -63,27 +66,59 @@ export default function NoteEdit() {
   return (
     <div className="relative h-screen flex flex-col">
       <div className="editor-topbar">
-        <input
-          value={title}
-          onChange={async (e) => {
-            setTitle(e.target.value);
-            changeNote(editor.getHTML());
-          }}
-          placeholder="Title"
-          className="editortitle"
-        ></input>
-        <Link
-          className="p-2 flex justify-center items-center dark:bg-dark-accent dark:text-dark-soft bg-light-accent w-1/12 rounded-sm"
-          to="/"
-          onClick={() => upload_note()}
+        <button
+          className="note-editor-back-btn"
+          onClick={() => navigate(-1)}
         >
-          OK
-        </Link>
+          <Backicon />
+        </button>
+
+        <div className="editor-title-wrapper">
+          <input
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              changeNote(editor.getHTML());
+            }}
+            placeholder="Title"
+            className="editortitle"
+          />
+        </div>
+
+        <button
+          className="editor-save-btn"
+          onClick={() => upload_note(editor?.getHTML())}
+        >
+          <Saveicon />
+        </button>
       </div>
       <NoteEditorBar />
       <EditorContent editor={editor} placeholder="Write here..." />
       <style>
         {`
+          .editor-save-btn svg {
+            width: 20px;
+            height: 20px;
+            color: #C1F6FF;
+          }
+          .editor-save-btn{
+            cursor: pointer;
+          }
+          .note-editor-back-btn{
+            width: 35px;
+            height: 35px;
+            font-size: 35px;
+            cursor: pointer;
+          }
+          .note-editor-back-btn svg {
+            width: 25px;
+            height: 25px;
+            color: #C1F6FF;
+          }
+          .editor-title-wrapper {
+            flex: 1;          /* takes all available space */
+            display: flex;
+          }
           .editor-topbar {
             width: 100%;
             display: flex;
@@ -91,6 +126,8 @@ export default function NoteEdit() {
             border-bottom: 1px solid;
             position: relative;
             background-color: #0f141f;
+            align-items: center;
+            padding: 0 30px;
 
             /* default light mode border */
             border-color: var(--light-soft, #283A50);
@@ -99,7 +136,6 @@ export default function NoteEdit() {
             border-color: var(--dark-soft, #283A50);
           }
           .editortitle {
-            width: 91.6%;
             padding: 0.5rem;
             padding-left: 2.5rem;
             font-size: 2.5rem;
