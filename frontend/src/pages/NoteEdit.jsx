@@ -85,12 +85,13 @@ export default function NoteEdit() {
           />
         </div>
 
-        <button
+        <Link
           className="editor-save-btn"
-          onClick={() => upload_note(editor?.getHTML())}
+          to="/"
+          onClick={() => upload_note()}
         >
           <Saveicon />
-        </button>
+        </Link>
       </div>
       <NoteEditorBar />
       <EditorContent editor={editor} placeholder="Write here..." />
@@ -118,6 +119,7 @@ export default function NoteEdit() {
           .editor-title-wrapper {
             flex: 1;          /* takes all available space */
             display: flex;
+            min-width: 0;
           }
           .editor-topbar {
             width: 100%;
@@ -127,7 +129,7 @@ export default function NoteEdit() {
             position: relative;
             background-color: #0f141f;
             align-items: center;
-            padding: 0 30px;
+            padding: 0 40px 0 30px;
 
             /* default light mode border */
             border-color: var(--light-soft, #283A50);
