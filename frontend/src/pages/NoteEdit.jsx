@@ -62,7 +62,7 @@ export default function NoteEdit() {
 
   return (
     <div className="relative h-screen flex flex-col">
-      <div className="w-full flex space-x-2 border-b dark:border-dark-soft border-light-soft border-solid relative">
+      <div className="editor-topbar">
         <input
           value={title}
           onChange={async (e) => {
@@ -70,7 +70,7 @@ export default function NoteEdit() {
             changeNote(editor.getHTML());
           }}
           placeholder="Title"
-          className="w-11/12  p-2 text-3xl focus:outline-none"
+          className="editortitle"
         ></input>
         <Link
           className="p-2 flex justify-center items-center dark:bg-dark-accent dark:text-dark-soft bg-light-accent w-1/12 rounded-sm"
@@ -84,21 +84,58 @@ export default function NoteEdit() {
       <EditorContent editor={editor} placeholder="Write here..." />
       <style>
         {`
+          .editor-topbar {
+            width: 100%;
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid;
+            position: relative;
+            background-color: #0f141f;
+
+            /* default light mode border */
+            border-color: var(--light-soft, #283A50);
+          }
+          .dark .editor-topbar {
+            border-color: var(--dark-soft, #283A50);
+          }
+          .editortitle {
+            width: 91.6%;
+            padding: 0.5rem;
+            padding-left: 2.5rem;
+            font-size: 2.5rem;
+            font-weight: bold;
+            border: none;
+            outline: none;
+          }
+
+          .editortitle:focus {
+            outline: none;       /* focus:outline-none */
+          }
+          .ProseMirror {
+            padding: 1rem 2.5rem; /* same as pl-10 */
+          }
           .ProseMirror h1 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: bold;
             margin: 0.5em 0;
+            font-family: "IBM Plex";
           }
 
           .ProseMirror h2 {
-            font-size: 1.5rem;
+            font-size: 1.9rem;
             font-weight: bold;
             margin: 0.5em 0;
+            font-family: "IBM Plex";
           }
 
           .ProseMirror h3 {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: bold;
+            font-family: "IBM Plex";
+          }
+          .ProseMirror p {
+            font-family: "Manrope";
+            font-size: 1.1rem;
           }
         `}
       </style>
@@ -157,6 +194,7 @@ function NoteEditorBar() {
           border-radius: 14px;
           box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
           color: #aee9ff;
+          z-index: 1;
         }
 
         .note-editor-bar-buttons {

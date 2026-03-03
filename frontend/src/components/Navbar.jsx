@@ -101,7 +101,7 @@ export function CreateButton() {
     <div>
       <Link
         to="/note/"
-        className="flex shadow-[4px_0_12px_rgba(0,0,0,0.247)] fixed bottom-10 right-10  justify-end  items-center  dark:text-dark-accent rounded-sm text-[#C1F6FF] hover:text-[#abd4db] active:scale-93"
+        className="flex shadow-[4px_0_12px_rgba(0,0,0,0.247)] fixed bottom-10 right-10  justify-end  items-center  dark:text-dark-accent rounded-sm text-[#C1F6FF] hover:text-[#abd4db] active:scale-93 z-2"
       >
         <CreateIcon />
       </Link>
