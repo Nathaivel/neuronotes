@@ -140,3 +140,4 @@ vite.config.ts.timestamp-*
 
 # PYCACHE
 __pycache__/
+.venv/
