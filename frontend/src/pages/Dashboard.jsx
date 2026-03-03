@@ -9,6 +9,19 @@ import {
 
 const COLORS = ["#c1f6ff", "#6ee7ff", "#3b82f6", "#1e40af"];
 
+function get_total_weekly_reviews(weekly){
+  let total = 0;
+  for (let day of weekly){
+    total += day.reviews;
+  }
+  return total
+}
+
+function notes_this_week(notes){
+  let total = 0;
+  return total
+}
+
 export default function Dashboard() {
 
   const [weeklyData, setWeeklyData] = useState([
@@ -21,12 +34,30 @@ export default function Dashboard() {
     { name: "Sunday", reviews: 0 },
   ]);
 
+  const [stats,setStats] = useState({"total_notes": 0,"notes_this_week": 0,"total_words": 0})
+  const [pieData,setPieData] = useState([])
+
   useEffect(() => {
     fetch_notes("reviews/weekly").then((data) => {
       if (data) {
         setWeeklyData(data);
       }
     });
+
+     fetch_notes("stats/").then((data) => {
+      if (data) {
+        setStats(data);
+      }
+    });
+
+    fetch_notes("reviews/pernote").then((data) => {
+      if (data) {
+        setPieData(data);
+      }
+    });
+
+
+    
   }, []);
 
   return (
@@ -43,10 +74,10 @@ export default function Dashboard() {
 
       {/* KPI Cards (unchanged) */}
       <div className="kpi-grid">
-        <KpiCard label="Total Notes" value="24" change="+12%" />
-        <KpiCard label="Notes This Week" value="7" change="+3%" />
-        <KpiCard label="Words Written" value="4,320" change="+8%" />
-        <KpiCard label="Reviews Done" value="5" change="+1%" />
+        <KpiCard label="Total Notes" value={stats.total_notes} change="+12%" />
+        <KpiCard label="Notes This Week" value={stats.notes_this_week} change="+3%" />
+        <KpiCard label="Words Written" value={stats.total_words} change="+8%" />
+        <KpiCard label="Reviews Done" value={get_total_weekly_reviews(weeklyData)} change="+1%" />
       </div>
 
       {/* Charts Section */}
@@ -84,16 +115,11 @@ export default function Dashboard() {
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
-                data={[
-                  { name: "Physics Notes", value: 40 },
-                  { name: "Math Notes", value: 25 },
-                  { name: "DSA Notes", value: 20 },
-                  { name: "Random Ideas", value: 15 },
-                ]}
+                data={pieData}
                 cx="50%"
                 cy="50%"
                 outerRadius={80}
-                dataKey="value"
+                dataKey="review_count"
                 label
               >
                 {[0,1,2,3].map((i) => (

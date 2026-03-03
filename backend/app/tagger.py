@@ -4,6 +4,7 @@ import json
 import time
 from typing import Dict, List, Optional
 from app.utils import clean_html_content
+import asyncio
 
 MODEL_NAME = "gemma3"
 TEMPERATURE = 0.2
@@ -216,3 +217,8 @@ def generate_tags(text: str, max_tags: int = 6):
         return []
 
     return result["tags"]
+
+def test(paragraph: str):
+    tags = json.dumps(generate_tags(paragraph), indent=5)
+    print("\n Output:")
+    print(tags)

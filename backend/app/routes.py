@@ -124,6 +124,23 @@ async def mark_review(note_id: str):
     )
 
 
+@router.get("/stats/")
+async def get_note_stats():
+    notes = await get_all_notes()
+    today = datetime.utcnow()
+    total_words = 0
+    notes_this_week = 0
+
+    for n in notes:
+        total_words += len(clean_html_content(n["content"]).split(" "))
+        if is_same_week(today, n["created_at"]):
+            notes_this_week += 1
+
+    
+    stats = {"total_notes": len(notes),"notes_this_week": notes_this_week,"total_words":total_words}
+
+    return stats
+
 @router.get("/reviews/weekly")
 async def get_weekly_review():
     notes = await get_all_notes()
@@ -165,6 +182,16 @@ async def get_monthly_review():
             else:
                 break
     return month
+
+
+@router.get("/reviews/pernote")
+async def get_total_review():
+    notes = await get_all_notes()
+    reviews_per_note = []
+    for note in notes:
+        reviews_per_note.append({"name":note["title"],"review_count": len(note["reviews"])})
+
+    return reviews_per_note
 
 @router.delete("/{note_id}")
 async def delete_note(note_id: str):

@@ -6,7 +6,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import "./Editor.css";
 import Backicon from "../assets/back.svg?react";
 import Saveicon from "../assets/save.svg?react";
-import { marked } from "marked"
+
 
 export default function NoteEdit() {
   let id = useParams().id;
@@ -52,27 +52,20 @@ export default function NoteEdit() {
     extensions: [StarterKit],
     content,
     editorProps: {
-  handlePaste(view, event) {
-    const text = event.clipboardData?.getData("text/plain")
+      handlePaste(view, event){
+        const text = event.clipboardData.getData("text/plain")
 
-    if (!text) return false
-
-    const looksLikeMarkdown =
-      /^#{1,6}\s|^- |\d+\. |```/.test(text)
-
-    if (looksLikeMarkdown) {
-      event.preventDefault()
-
-      const html = marked.parse(text)
-
-      editor.commands.insertContent(html)
-
-      return true
-    }
-
-    return false
+      if (text) {
+        event.preventDefault()
+        view.dispatch(
+          view.state.tr.insertText(text)
+        )
+        return true
       }
-    },
+
+      return false
+      }
+    }
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       changeNote(html);
@@ -86,7 +79,7 @@ export default function NoteEdit() {
   }, [editor, content]);
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="relative h-screen flex flex-col">
       <div className="editor-topbar">
         <button
           className="note-editor-back-btn"
@@ -116,9 +109,7 @@ export default function NoteEdit() {
         </Link>
       </div>
       <NoteEditorBar />
-      <div className="editor-container">
       <EditorContent editor={editor} placeholder="Write here..." />
-      </div>
       <style>
         {`
           .editor-save-btn svg {

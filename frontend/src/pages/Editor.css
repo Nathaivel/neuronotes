@@ -1,6 +1,11 @@
+.editor-container{
+  flex: 1;
+  min-height: 0px;
+  overflow-y: auto;
+}
 .ProseMirror{
   outline: none;
-  min-height: 100vh;
+  height: auto;
 }
 
 .ProseMirror h1{

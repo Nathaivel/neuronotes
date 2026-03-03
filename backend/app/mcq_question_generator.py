@@ -1,6 +1,7 @@
 import json
 import re
 from typing import List, Dict
+import asyncio
 from ollama import AsyncClient
 from app.utils import clean_html_content
 
@@ -169,3 +170,8 @@ async def generate_questions_pipeline(paragraph: str):
     questions = await generate_mcqs(facts)
 
     return questions
+
+async def test(paragraph):
+    answers = await generate_questions_pipeline(paragraph)
+    print("\nFINAL OUTPUT:")
+    print(json.dumps(answers, indent=2))
