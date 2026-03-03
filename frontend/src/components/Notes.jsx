@@ -2,6 +2,7 @@ import { delete_note, log_note_review } from "../utils/api";
 import { NavLink } from "react-router-dom";
 import Dropdown from "./Dropdown.jsx";
 import ReviewIcon from "../assets/testtube.svg?react";
+import {htmlToText} from "../utils/util.js";
 
 // export default function NotePost({ id, title, description }) {
 //   return (
@@ -62,7 +63,7 @@ export default function NotePost({ id, title, description, updated_at }) {
       >
         <span className="note-date">{formatDate(updated_at)}</span>
         <h2 className="note-title">{title}</h2>
-        <p className="note-preview">{description.slice(0, 90)}...</p>
+        <p className="note-preview">{htmlToText(description).slice(0, 90)}...</p>
       </NavLink>
 
       {/* RIGHT SIDE META */}
