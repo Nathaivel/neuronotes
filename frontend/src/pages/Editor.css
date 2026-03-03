@@ -1,43 +1,48 @@
-.editor-container{
-  flex: 1;
-  min-height: 0px;
-  overflow-y: auto;
+.editor-container {
+    flex: 1;
+    min-height: 0px;
+    overflow-y: auto;
 }
-.ProseMirror{
-  outline: none;
-  height: auto;
-}
-
-.ProseMirror h1{
-  font-size: 32px;
-  font-weight: bold;
+.ProseMirror {
+    outline: none;
+    height: auto;
 }
 
-.ProseMirror h2{
-  font-size: 26px;
-  font-weight: bold;
-}
-.ProseMirror h3{
-  font-size: 20px;
-  font-weight: bold;
-}
-.ProseMirror ul{
-  padding-left: 20px;
-  list-style: disc;
-
+.ProseMirror h1 {
+    font-size: 32px;
+    font-weight: bold;
+    font-family: "IBM Plex";
 }
 
-.ProseMirror ol{
-  padding-left: 20px;
-  list-style: decimal;
+.ProseMirror p {
+    font-family: manrope;
 }
 
-.ProseMirror hr{
-  border-bottom: var(--color-dark-soft) 2px solid;
-  padding: 2px;
+.ProseMirror h2 {
+    font-size: 26px;
+    font-weight: bold;
+    font-family: "IBM Plex";
+}
+.ProseMirror h3 {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "IBM Plex";
+}
+.ProseMirror ul {
+    padding-left: 20px;
+    list-style: disc;
 }
 
+.ProseMirror ol {
+    padding-left: 20px;
+    list-style: decimal;
+}
+
+.ProseMirror hr {
+    border-bottom: var(--color-dark-soft) 2px solid;
+    padding: 2px;
+}
 
 .ProseMirror li {
-  margin-bottom: 5px;
+    margin-bottom: 5px;
 }
