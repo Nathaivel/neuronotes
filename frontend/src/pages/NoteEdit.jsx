@@ -153,7 +153,7 @@ export default function NoteEdit() {
             position: relative;
             background-color: #0f141f;
             align-items: center;
-            padding: 0 40px 0 30px;
+            padding: 10px 40px 10px 20px;
 
             /* default light mode border */
             border-color: var(--light-soft, #283A50);
@@ -163,8 +163,8 @@ export default function NoteEdit() {
           }
           .editortitle {
             padding: 0.5rem;
-            padding-left: 2.5rem;
-            font-size: 2.5rem;
+            padding-left: 0rem;
+            font-size: 2rem;
             font-weight: bold;
             border: none;
             outline: none;
